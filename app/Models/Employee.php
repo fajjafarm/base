@@ -1,31 +1,30 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
-class User extends Authenticatable
+class Employee extends Authenticatable
 {
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
-    use Notifiable;
+    use Notifiable; // Required for password resets and notifications
 
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'first_name',     // Replacing 'name'
-        'surname',        // Added
+        'first_name',
+        'surname',
         'email',
         'password',
-        'start_date',     // Added
-        'end_date',       // Added
-        'position',       // Added
+        'start_date',
+        'end_date',
+        'position'
     ];
 
     protected $hidden = [
-        'password',
+        'password', // Hide password in serialization
         'remember_token',
     ];
 
