@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use App\Models\PoolList;
 use Illuminate\Support\Facades\View;
 use App\Models\ThermalSuite;
+use App\Models\PlantroomList;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,16 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
             
             $view->with('thermalSuites', $thermalSuites);
+        });
+        View::composer('partials.plantroom-menu', function ($view) {
+            $clientId = request()->query('client_id');
+            
+            $plantrooms = PlantroomList::when($clientId, fn($query) => $query->where('client_id', $clientId))
+                ->select('plantroom_id', 'plantroom_name')
+                ->orderBy('plantroom_name')
+                ->get();
+            
+            $view->with('plantrooms', $plantrooms);
         });
     }
 }

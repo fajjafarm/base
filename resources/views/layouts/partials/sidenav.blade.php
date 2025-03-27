@@ -35,35 +35,7 @@
                        
                 
             </li>
-            <ul class="side-nav">
-            <li class="side-nav-title">Plant Room</li>
-            <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarBackwashes" aria-expanded="false" aria-controls="sidebarBackwashes" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
-                    <span class="menu-text">Backwashing</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarBackwashes">
-                    <ul class="sub-menu">
-                        <li class="side-nav-item">
-                            <a href="{{ route('backwashes.index', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
-                                <span class="menu-text">Resort Plantroom</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('backwashes.index', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
-                                <span class="menu-text">Hotel Plantroom</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('backwashes.index', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
-                                <span class="menu-text">Hot Tub Level 3</span>
-                            </a>
-                        </li>
-                        
-                        </ul>
-                </div>
-            </li>
+            @include('partials.plantroom-menu')
             <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarWaterMEterREadings" aria-expanded="false" aria-controls="sidebarWaterMEterREadings" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti ti-dashboard"></i></span>
