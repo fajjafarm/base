@@ -30,21 +30,8 @@
 
         @include('partials.sidebar-menu')
 
-            
-            <li class="side-nav-title">Thermal Suite Checks</li>
-     
-                        <li class="side-nav-item">
-                            <a href="{{ route('thermal_suite_checks.create', '01JNBZ3KEY3WX9K92ZCE2H6RXC') }}" class="side-nav-link">
-                            <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
-                                <span class="menu-text">Resort Thermal Suite</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('thermal_suite_checks.create', '01JNBZ6V3ABY6KDC6J458TX6V4') }}" class="side-nav-link">
-                            <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
-                                <span class="menu-text">Hotel Thermal Suite</span>
-                            </a>
-</li>                      
+        @include('partials.thermal-suite-menu')   
+                 
                        
                 
             </li>
