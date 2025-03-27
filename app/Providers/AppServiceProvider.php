@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
                 $query->where('client_id', $clientId);
             }
             
-            $pools = $query->select('id', 'pool_name')
+            $pools = $query->select('pool_id', 'pool_name')
                           ->orderBy('pool_name')
                           ->get();
             
