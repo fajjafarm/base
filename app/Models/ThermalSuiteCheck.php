@@ -11,7 +11,10 @@ class ThermalSuiteCheck extends Model
         'user_id',
         'status',
         'extra_info',
-        'checked_at' => 'datetime' 
+        'checked_at'
+    ];
+    protected $casts = [
+        'checked_at' => 'datetime', // Ensure this is present
     ];
 
     public function thermalSuite()
