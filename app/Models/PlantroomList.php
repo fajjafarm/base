@@ -1,4 +1,3 @@
-// app/Models/PlantroomList.php
 <?php
 
 namespace App\Models;
