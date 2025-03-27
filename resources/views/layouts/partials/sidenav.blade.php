@@ -26,7 +26,176 @@
 
     <div data-simplebar>
 
-        <!--- Sidenav Menu -->
+        <!--- my menu -->
+
+        <ul class="side-nav">
+            <li class="side-nav-title">Pool Tests</li>
+
+            <li class="side-nav-item">
+                <a href="{{ route('pool-tests.create', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
+                    <span class="menu-text"> Resort Pool </span>
+                    <span class="badge bg-success rounded-pill">5</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{ route('pool-tests.create', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
+                    <span class="menu-text"> Hotel Pool </span>
+                    <span class="badge bg-success rounded-pill">5</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{ route('pool-tests.create', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
+                    <span class="menu-text"> Hot Tub Level 3 </span>
+                    <span class="badge bg-success rounded-pill">5</span>
+                </a>
+            </li>
+
+            
+            <li class="side-nav-title">Thermal Suite Checks</li>
+     
+                        <li class="side-nav-item">
+                            <a href="{{ route('thermal_suite_checks.create', '01JNBZ3KEY3WX9K92ZCE2H6RXC') }}" class="side-nav-link">
+                            <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                                <span class="menu-text">Resort Thermal Suite</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('thermal_suite_checks.create', '01JNBZ6V3ABY6KDC6J458TX6V4') }}" class="side-nav-link">
+                            <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                                <span class="menu-text">Hotel Thermal Suite</span>
+                            </a>
+</li>                      
+                       
+                
+            </li>
+            <ul class="side-nav">
+            <li class="side-nav-title">Plant Room</li>
+            <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarBackwashes" aria-expanded="false" aria-controls="sidebarBackwashes" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                    <span class="menu-text">Backwashing</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarBackwashes">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a href="{{ route('backwashes.index', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
+                                <span class="menu-text">Resort Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('backwashes.index', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
+                                <span class="menu-text">Hotel Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('backwashes.index', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
+                                <span class="menu-text">Hot Tub Level 3</span>
+                            </a>
+                        </li>
+                        
+                        </ul>
+                </div>
+            </li>
+            <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarWaterMEterREadings" aria-expanded="false" aria-controls="sidebarWaterMEterREadings" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti ti-dashboard"></i></span>
+                    <span class="menu-text">Water Meter Readings</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarWaterMEterREadings">
+                    <ul class="sub-menu">
+                    <li class="side-nav-item">
+                            <a href="{{ route('water-meter-readings.index', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
+                                <span class="menu-text">Resort Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('water-meter-readings.index', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
+                                <span class="menu-text">Hotel Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('water-meter-readings.index', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
+                                <span class="menu-text">Hot Tub Level 3</span>
+                            </a>
+                        </li>
+                        
+                        </ul>
+                </div>
+            </li>     
+            <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarWaterBalanceTest" aria-expanded="false" aria-controls="sidebarWaterBalanceTest" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                    <span class="menu-text">Water Balance Tests</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarWaterBalanceTest">
+                    <ul class="sub-menu">
+                    <li class="side-nav-item">
+                            <a href="{{ route('water-balance-checks.index', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
+                                <span class="menu-text">Resort Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('water-balance-checks.index', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
+                                <span class="menu-text">Hotel Plantroom</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a href="{{ route('water-balance-checks.index', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
+                                <span class="menu-text">Hot Tub Level 3</span>
+                            </a>
+                        </li>
+                        
+                        </ul>
+                </div>
+            </li>       
+
+            <ul class="side-nav">
+            <li class="side-nav-title">Bikes</li>
+
+            <li class="side-nav-item">
+                <a href="{{ route('bike-rental-orders.index') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-receipt-2"></i></span>
+                    <span class="menu-text"> Assign Bikes </span>
+                    <span class="badge bg-success rounded-pill">5</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+            <a href="{{ route('bikes.index') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                    <span class="menu-text"> Bike Hire Log </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+            <a href="{{ route('bike-helmets.index') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                    <span class="menu-text"> Bike Helmet Log </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+            <a href="{{ route('bike-locks.index') }}" class="side-nav-link">
+                    <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
+                    <span class="menu-text"> Bike Lock Log </span>
+                </a>
+            </li>
+
+
+
+
+<!--- my menu -->
+
+
+
+
+
+
+
+
         <ul class="side-nav">
             <li class="side-nav-title">Dash</li>
 

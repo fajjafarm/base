@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'E-Wallet Dashboard'])
+@extends('layouts.vertical', ['title' => 'Pool Tests'])
 
 @section('css')
     @vite(['node_modules/flatpickr/dist/flatpickr.min.css'])
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="card-body pt-0">
-                                <h2 class="fw-bold">$92,652.36 <a href="#!" class="text-muted"><i class="ti ti-eye"></i></a></h2>
+                                <h2 class="fw-bold">Pool Test Submit buttons<a href="#!" class="text-muted"><i class="ti ti-eye"></i></a></h2>
 
                                 <div class="row g-2 mt-2 pt-1">
                                     <div class="col">
@@ -122,7 +122,9 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex flex-wrap align-items-center gap-2">
-                                <h4 class="header-title me-auto mb-0">Overview</h4>
+                                <h4 class="header-title me-auto mb-0">Results for pool: @foreach ($pooltests as $pooltest)
+    {{ $pooltest->pool_id }}
+@endforeach</h4>
 
                                 <a href="javascript: void(0);" class="btn btn-soft-primary">
                                     Export <i class="ti ti-file-export ms-1"></i>
@@ -145,7 +147,7 @@
                                             <p class="text-muted mt-3 mb-1">Revenue</p>
                                             <h4 class="mb-3">
                                                 <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
-                                                <span class="fw-semibold">$29.5k</span>
+                                                <span class="fw-semibold"></span>
                                             </h4>
                                         </div>
                                         <div class="col-md col-6">
@@ -489,8 +491,8 @@
                                         <th scope="col" class="text-muted">DPD3</th>
                                         <th scope="col" class="text-muted">Combined CL</th>
                                         <th scope="col" class="text-muted">pH</th>
+                                        <th scope="col" class="text-muted">Temp. &deg;C</th>
                                         <th scope="col" class="text-muted">Tested By</th>
-                                        <th scope="col" class="text-muted">Due At</th>
                                         <th scope="col" class="text-muted">Tested at</th>
                                         <th scope="col" class="text-muted">Status</th>
                                     </tr>
@@ -501,25 +503,16 @@
                                         <td>
                                             <a href="#!" class="fw-medium text-reset">{{ $pooltest->id }}</a>
                                         </td>
-                                        <td>
-                                            <div class="avatar-xs d-inline-block me-1">
-                                                <span class="avatar-title bg-primary-subtle text-primary fw-semibold rounded-circle">
-                                                    A
-                                                </span>
-                                            </div>
-                                            <a href="#!" class="text-reset">{{ $pooltest->dpd1 }}</a>
-                                        </td>
+                                        <td><a href="#!" class="text-reset">{{ $pooltest->dpd1 }}</a></td>
                                         <td>{{ $pooltest->dpd3 }}</td>
                                         <td class="text-success">{{ $pooltest->ccl }}</td>
-                                        <td>20 Apr,24 <small class="text-muted">10:31:23 am</small></td>
-                                        <td>Credit</td>
-                                        <td>
-                                            <img src="/images/cards/mastercard.svg" alt="" height="24" class="me-1">
-                                            <span class="align-middle">{{ $pooltest->ph }}</span>
+                                        <td class="text-danger">{{ $pooltest->ph }}</td>
+                                        <td class="text-danger">{{ $pooltest->water_temp }}</span>
                                         </td>
-                                        <td><span class="badge bg-success-subtle text-success p-1">Success</span></td>
+                                        <td>Daninio</td>
+                                        <td><span class="align-middle"> <small class="text-muted">{{ $pooltest->test_time }}</small></span></td>
                                         <td>
-                                            <a href="javascript: void(0);" class="text-muted fs-20"> <i class="ti ti-edit"></i></a>
+                                        <span class="badge bg-success-subtle text-success p-1">Success</span>
                                         </td>
                                     </tr>@endforeach
 
@@ -532,7 +525,7 @@
                                         </td>
                                         <td>Invoice #1908</td>
                                         <td class="text-danger">-AUD $90.99</td>
-                                        <td>18 Apr,24 <small class="text-muted">06:22:09 pm</small></td>
+                                        <td> <small class="text-muted">06:22:09 pm</small></td>
                                         <td>Debit</td>
                                         <td>
                                             <img src="/images/cards/visa.svg" alt="" height="24" class="me-1">

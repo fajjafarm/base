@@ -9,7 +9,7 @@
     <div class="col-12">
         <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Leisure Overview</h4>
+                <h4 class="fs-18 fw-semibold m-0">Pool Tests</h4>
             </div>
             <div class="mt-3 mt-sm-0">
                 <form action="javascript:void(0);">
@@ -162,21 +162,31 @@
                                 <p class="text-muted mt-3 mb-1">DPD1</p>
                                 <h4 class="mb-3">
                                     <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
-                                    <span>1</span>
+                                    <span>
+                                    @foreach ($pooltests as $pooltest)
+    {{ $pooltest->dpd1 }}
+@endforeach
+                    
+                  
+         </span>
                                 </h4>
                             </div>
                             <div class="col-md-3 col-6">
                                 <p class="text-muted mt-3 mb-1">DPD3</p>
                                 <h4 class="mb-3">
                                     <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
-                                    <span>2.09</span>
+                                    <span>  @foreach ($pooltests as $pooltest)
+    {{ $pooltest->dpd3 }}
+@endforeach</span>
                                 </h4>
                             </div>
                             <div class="col-md-3 col-6">
                                 <p class="text-muted mt-3 mb-1">Combined CL</p>
                                 <h4 class="mb-3">
                                     <span class="ti ti-chart-infographic me-1"></span>
-                                    <span>0.2</span>
+                                    <span>  @foreach ($pooltests as $pooltest)
+    {{ $pooltest->ccl }}
+@endforeach</span>
                                 </h4>
                             </div>
                             <div class="col-md-3 col-6">
