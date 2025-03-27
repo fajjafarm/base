@@ -11,7 +11,7 @@ class ThermalSuiteCheck extends Model
         'user_id',
         'status',
         'extra_info',
-        'checked_at'
+        'checked_at' => 'datetime' 
     ];
 
     public function thermalSuite()
