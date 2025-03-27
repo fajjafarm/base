@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Models\PoolList;
 use Illuminate\Support\Facades\View;
+use App\Models\ThermalSuite;
 
 class AppServiceProvider extends ServiceProvider
 {
