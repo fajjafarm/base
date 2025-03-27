@@ -28,30 +28,7 @@
 
         <!--- my menu -->
 
-        <ul class="side-nav">
-            <li class="side-nav-title">Pool Tests</li>
-
-            <li class="side-nav-item">
-                <a href="{{ route('pool-tests.create', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
-                    <span class="menu-text"> Resort Pool </span>
-                    <span class="badge bg-success rounded-pill">5</span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="{{ route('pool-tests.create', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
-                    <span class="menu-text"> Hotel Pool </span>
-                    <span class="badge bg-success rounded-pill">5</span>
-                </a>
-            </li>
-            <li class="side-nav-item">
-                <a href="{{ route('pool-tests.create', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
-                    <span class="menu-text"> Hot Tub Level 3 </span>
-                    <span class="badge bg-success rounded-pill">5</span>
-                </a>
-            </li>
+        @include('partials.sidebar-menu')
 
             
             <li class="side-nav-title">Thermal Suite Checks</li>
