@@ -13,4 +13,3 @@
             <span class="menu-text">No pools found</span>
         </li>
     @endforelse
-</ul>
