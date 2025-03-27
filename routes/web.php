@@ -52,8 +52,8 @@ Route::post('/pool-tests/{pool_id}', [PoolTestController::class, 'store'])->name
 Route::get('/thermal-suites/create', [ThermalSuiteController::class, 'create'])->name('thermal-suites.create');
 Route::post('/thermal-suites', [ThermalSuiteController::class, 'store'])->name('thermal-suites.store');
 
-Route::get('/thermal-suites/{thermal_suite_id}/check', [ThermalSuiteCheckController::class, 'create'])->name('thermal_suite_checks.create');
-Route::post('/thermal-suites/{thermal_suite_id}/check', [ThermalSuiteCheckController::class, 'store'])->name('thermal_suite_checks.store');
+Route::get('/thermal-suites/check{thermal_suite_id}', [ThermalSuiteCheckController::class, 'create'])->name('thermal_suite_checks.create');
+Route::post('/thermal-suites/check{thermal_suite_id}', [ThermalSuiteCheckController::class, 'store'])->name('thermal_suite_checks.store');
 
 
 //Route::get('/thermal/check/view{ThermalID}', [ThermalCheckController::class, 'index'])->name('thermal.checks.index');
