@@ -10,6 +10,7 @@
         </li>
     @empty
         <li class="side-nav-item">
-            <span class="menu-text">No pools found</span>
+        <span class="menu-icon"><i class="ti ti-bar-chart"></i></span>
+            <span class="menu-text">No Pools Found</span>
         </li>
     @endforelse
