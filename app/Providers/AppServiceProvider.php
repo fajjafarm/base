@@ -37,5 +37,16 @@ class AppServiceProvider extends ServiceProvider
             
             $view->with('pools', $pools);
         });
+        View::composer('partials.thermal-suite-menu', function ($view) {
+            $clientId = request()->query('client_id');
+            
+            $thermalSuites = ThermalSuite::with('checks') // Eager load for lastCheck()
+                ->when($clientId, fn($query) => $query->where('client_id', $clientId))
+                ->select('id', 'thermal_name', 'check_interval')
+                ->orderBy('thermal_name')
+                ->get();
+            
+            $view->with('thermalSuites', $thermalSuites);
+        });
     }
 }

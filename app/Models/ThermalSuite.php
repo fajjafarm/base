@@ -36,13 +36,36 @@ class ThermalSuite extends Model
     {
         return $this->belongsTo(Client::class);
     }
-    public function checks()
-{
-    return $this->hasMany(ThermalSuiteCheck::class, 'thermal_suite_id');
-}
 
-public function lastCheck()
-{
-    return $this->checks()->latest('checked_at')->first();
-}
+    public function checks()
+    {
+        return $this->hasMany(ThermalSuiteCheck::class, 'thermal_suite_id');
+    }
+
+    public function lastCheck()
+    {
+        return $this->checks()->latest('checked_at')->first();
+    }
+
+    // Check if the latest check is overdue based on check_interval
+    public function needsCheck()
+    {
+        $latestCheck = $this->lastCheck();
+        if (!$latestCheck) {
+            return true; // No checks yet, so it needs checking
+        }
+        return $latestCheck->checked_at->diffInMinutes(now()) > $this->check_interval;
+    }
+
+    // Check if the latest check is recent and okay
+    public function isRecentAndOk()
+    {
+        $latestCheck = $this->lastCheck();
+        if (!$latestCheck) {
+            return false;
+        }
+        $isWithinInterval = $latestCheck->checked_at->diffInMinutes(now()) <= $this->check_interval;
+        $isOkay = in_array($latestCheck->status, ['occupied_okay', 'empty_okay']);
+        return $isWithinInterval && $isOkay;
+    }
 }

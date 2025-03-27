@@ -30,4 +30,16 @@ class ThermalSuiteController extends Controller
         return redirect()->route('thermal-suites.create')
             ->with('success', 'Thermal Suite added successfully');
     }
+    public function getThermalSuiteMenu(Request $request)
+    {
+        $clientId = $request->query('client_id');
+
+        $thermalSuites = ThermalSuite::with('checks') // Eager load checks for lastCheck()
+            ->when($clientId, fn($query) => $query->where('client_id', $clientId))
+            ->select('id', 'thermal_name', 'check_interval')
+            ->orderBy('thermal_name')
+            ->get();
+
+        return view('partials.thermal-suite-menu', compact('thermalSuites'));
+    }
 }
