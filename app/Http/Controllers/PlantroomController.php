@@ -30,7 +30,7 @@ class PlantroomController extends Controller
         ]);
 
         $plantroom = new PlantroomList;
-        $plantroom->plantroom_id = Str::ulid(); // Generate ULID
+        $plantroom->plantroomid = Str::ulid(); // Generate ULID
         $plantroom->fill($validatedData);
         $plantroom->save();
 

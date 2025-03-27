@@ -54,7 +54,7 @@ class AppServiceProvider extends ServiceProvider
             $clientId = request()->query('client_id');
             
             $plantrooms = PlantroomList::when($clientId, fn($query) => $query->where('client_id', $clientId))
-                ->select('plantroom_id', 'plantroom_name')
+                ->select('plantroomid', 'plantroom_name')
                 ->orderBy('plantroom_name')
                 ->get();
             
