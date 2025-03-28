@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PlantroomList;
+use App\Models\PlantroomComponent;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,19 +21,40 @@ class PlantroomController extends Controller
         $validatedData = $request->validate([
             'client_id' => 'required|string',
             'plantroom_name' => 'required|string|max:255',
-            'plantroom_type' => 'required|string|max:255',
-            'filters' => 'required|numeric',
-            'strainers' => 'required|numeric',
-            'cl_injector' => 'required|string|max:255',
-            'ph_injector' => 'required|string|max:255',
-            'pac_injector' => 'required|string|max:255',
-            'info' => 'string|max:255'
+            'description' => 'nullable|string|max:1000',
+            'filters' => 'required|array|max:10',
+            'filters.*' => 'nullable|string|max:255',
+            'strainers' => 'required|array|max:10',
+            'strainers.*' => 'nullable|string|max:255',
+            'cl_injectors' => 'required|array',
+            'cl_injectors.*' => 'nullable|string|max:255',
+            'ph_injectors' => 'required|array',
+            'ph_injectors.*' => 'nullable|string|max:255',
+            'pac_injectors' => 'required|array',
+            'pac_injectors.*' => 'nullable|string|max:255',
         ]);
 
         $plantroom = new PlantroomList;
-        $plantroom->plantroomid = Str::ulid(); // Generate ULID
-        $plantroom->fill($validatedData);
+        $plantroom->plantroom_id = Str::ulid();
+        $plantroom->client_id = $validatedData['client_id'];
+        $plantroom->plantroom_name = $validatedData['plantroom_name'];
+        $plantroom->description = $validatedData['description'];
         $plantroom->save();
+
+        // Save components
+        foreach (['filters' => 'filter', 'strainers' => 'strainer', 'cl_injectors' => 'cl_injector', 
+                  'ph_injectors' => 'ph_injector', 'pac_injectors' => 'pac_injector'] as $input => $type) {
+            foreach ($validatedData[$input] as $number => $desc) {
+                if ($desc) {
+                    PlantroomComponent::create([
+                        'plantroom_id' => $plantroom->plantroom_id,
+                        'component_type' => $type,
+                        'component_number' => $number + 1,
+                        'description' => $desc,
+                    ]);
+                }
+            }
+        }
 
         return redirect()->back()->with('success', 'Plantroom added successfully.');
     }

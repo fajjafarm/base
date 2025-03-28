@@ -1,72 +1,63 @@
-@extends('layouts.vertical', ['title' => 'Adda a New Pool'])
+@extends('layouts.vertical', ['title' => 'Add Plantroom'])
 
 @section('content')
-    @include('layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Add a New Pool'])
-    <div class="container mt-5">
-    @if(session('success'))  
-        <div class="alert alert-success">{{ session('success') }}   </div>
-    @endif
-    @if(session('notgood'))  
-    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                        <iconify-icon icon="solar:danger-triangle-bold-duotone" class="fs-20 me-1"></iconify-icon>
-                        <div class="lh-1"><strong>Error - </strong> {{ session('notgood') }}</div>
+    @include('layouts.partials.page-title', ['subtitle' => 'Plantrooms', 'title' => 'Add Plantroom'])
+
+    <div class="container mt-4 mb-5">
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="card-title mb-4">Add Plantroom for {{ $companyName->company_name }}</h2>
+
+                <form action="{{ route('plantroom.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="client_id" value="{{ $clientID }}">
+
+                    <div class="mb-4">
+                        <label for="plantroom_name" class="form-label">Plantroom Name</label>
+                        <input type="text" class="form-control @error('plantroom_name') is-invalid @enderror" 
+                               name="plantroom_name" value="{{ old('plantroom_name') }}" required>
+                        @error('plantroom_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-    @endif
-        <h2>Add a New Pool for {{$companyName}} </h2>
-        <form action="{{ route('pools.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-        <input type="hidden" id="client_id" name="client_id" value="{{$clientID}}" />
+
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror" 
+                                  name="description" rows="3">{{ old('description') }}</textarea>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    @foreach(['filters' => 'Filters', 'strainers' => 'Strainers', 'cl_injectors' => 'Chlorine Injectors', 
+                             'ph_injectors' => 'pH Injectors', 'pac_injectors' => 'PAC Injectors'] as $type => $label)
+                        <div class="mb-4">
+                            <h5>{{ $label }}</h5>
+                            @for($i = 0; $i < ($type === 'filters' || $type === 'strainers' ? 10 : 5); $i++)
+                                <div class="row g-3 mb-2">
+                                    <div class="col-12 col-md-6">
+                                        <input type="text" 
+                                               class="form-control @error("{$type}.{$i}") is-invalid @enderror" 
+                                               name="{{ $type }}[{{ $i }}]" 
+                                               value="{{ old("{$type}.{$i}") }}" 
+                                               placeholder="{{ $label }} {{ $i + 1 }} Description">
+                                        @error("{$type}.{$i}")
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endfor
+                        </div>
+                    @endforeach
+
+                    <button type="submit" class="btn btn-primary btn-lg">Add Plantroom</button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="pool_name">Pool Name:</label>
-            <input type="text" name="pool_name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="pool_type">Pool Type:</label>
-            <input type="text" name="pool_type" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="length">Length:</label>
-            <input type="number" step="0.01" name="length" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="width">Width:</label>
-            <input type="number" step="0.01" name="width" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="depth">Depth:</label>
-            <input type="number" step="0.01" name="depth" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="volume">Volume:</label>
-            <input type="number" step="0.01" name="volume" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_dpd1">Ideal DPD1:</label>
-            <input type="number" step="0.01" name="ideal_dpd1" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_ph">Ideal PH:</label>
-            <input type="number" step="0.01" name="ideal_ph" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_alk">Ideal Alkalinity:</label>
-            <input type="number" step="0.01" name="ideal_alk" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_calc">Ideal Calcium:</label>
-            <input type="number" step="0.01" name="ideal_calc" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_water_temp">Ideal Water Temp:</label>
-            <input type="number" step="0.01" name="ideal_water_temp" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="ideal_air_temp">Ideal Air Temp:</label>
-            <input type="number" step="0.01" name="ideal_air_temp" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
     </div>
 @endsection

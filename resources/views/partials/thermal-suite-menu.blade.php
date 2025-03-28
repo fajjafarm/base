@@ -6,7 +6,7 @@
                 <span class="menu-icon"><i class="ti ti-thermometer"></i></span>
                 <span class="menu-text"> {{ $suite->thermal_name }} </span>
                 @if($suite->needsCheck())
-                    <span class="badge bg-warning rounded-pill">Check Needed</span>
+                    <span class="badge bg-warning rounded-pill">Check Due</span>
                 @elseif($suite->isRecentAndOk())
                     <span class="badge bg-success rounded-pill"><i class="ti ti-check"></i></span>
                 @endif

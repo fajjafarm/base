@@ -40,6 +40,10 @@ require __DIR__ . '/auth.php';
     Route::get('/training/create', [TrainingSessionController::class, 'create'])->name('training.create');
     Route::post('/training', [TrainingSessionController::class, 'store'])->name('training.store');
 
+    Route::get('/plantroom/create/{clientID}', [PlantroomController::class, 'create'])->name('plantroom.create');
+Route::post('/plantroom/store', [PlantroomController::class, 'store'])->name('plantroom.store');
+Route::get('/plantroom-menu', [PlantroomController::class, 'getPlantroomMenu'])->name('plantroom.menu');
+
 
    Route::get('/employees/{employee}', [EmployeeController::class, 'show'])->name('employees.show');
     Route::get('/training/create', [TrainingSessionController::class, 'create'])->name('training.create');
@@ -92,8 +96,8 @@ Route::post('/water-balance-checks', [WaterBalanceTestController::class, 'store'
 Route::get('/pools/create/{clientID}', [PoolController::class, 'create'])->name('pools.create');
 Route::post('/pools', [PoolController::class, 'store'])->name('pools.store');
 
-Route::get('/plantroom/create/{clientID}', [PlantroomController::class, 'create'])->name('plantroom.create');
-Route::post('/plantroom', [PlantroomController::class, 'store'])->name('plantroom.store');
+//Route::get('/plantroom/create/{clientID}', [PlantroomController::class, 'create'])->name('plantroom.create');
+//Route::post('/plantroom', [PlantroomController::class, 'store'])->name('plantroom.store');
 
 //regularuser access but only if they are associated with the company
 //Route::post('/water-balance-checks/waterBalanceTestForm', [WaterBalanceTestController::class, 'submitWaterTest'])->name('water_balance_checks.waterBalanceTestForm');

@@ -16,9 +16,7 @@ class PlantroomList extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'client_id', 'plantroom_id', 'plantroom_name', 'plantroom_type', 'pool_filters', 
-        'pool_strainers', 'other_strainers', 'cl_injector', 'ph_injector', 
-        'pac_injector', 'info'
+        'client_id', 'plantroom_id', 'plantroom_name', 'description'
     ];
 
     protected static function boot()
@@ -30,5 +28,15 @@ class PlantroomList extends Model
                 $model->plantroom_id = Str::ulid();
             }
         });
+    }
+
+    public function components()
+    {
+        return $this->hasMany(PlantroomComponent::class, 'plantroom_id', 'plantroom_id');
+    }
+
+    public function backwashLogs()
+    {
+        return $this->hasMany(BackwashLog::class, 'plantroom_id', 'plantroom_id');
     }
 }
