@@ -20,6 +20,7 @@ use App\Http\Controllers\ThermalSuiteCheckController;
 use App\Http\Controllers\BikeRentalOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrainingSessionController;
+use App\Http\Controllers\BackwashLogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +35,9 @@ use App\Http\Controllers\TrainingSessionController;
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
 require __DIR__ . '/auth.php';
 
-
+Route::get('/backwashes/{plantroom_id}', [BackwashLogController::class, 'index'])->name('backwashes.index');
+Route::get('/backwashes/create/{plantroom_id}', [BackwashLogController::class, 'create'])->name('backwashes.create');
+Route::post('/backwashes/store', [BackwashLogController::class, 'store'])->name('backwashes.store');
 
     Route::get('/users/{user:id}', [UserController::class, 'show'])->name('users.show'); // Updated
     Route::get('/training/create', [TrainingSessionController::class, 'create'])->name('training.create');
