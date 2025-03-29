@@ -57,8 +57,8 @@ Route::prefix('superadmin')->group(function () {
     Route::get('/thermal-suite/create', [ThermalSuiteController::class, 'create'])->name('superadmin.thermal_suite.create');
     Route::post('/thermal-suite/store', [ThermalSuiteController::class, 'store'])->name('superadmin.thermal_suite.store');
 
-    Route::get('/water-meter/create', [WaterMeterReadingController::class, 'create'])->name('superadmin.water_meter.create');
-    Route::post('/water-meter/store', [WaterMeterReadingController::class, 'store'])->name('superadmin.water_meter.store');
+    Route::get('/water-meter/create', [WaterMeterController::class, 'create'])->name('superadmin.water_meter.create');
+    Route::post('/water-meter/store', [WaterMeterController::class, 'store'])->name('superadmin.water_meter.store');
 
     Route::get('/team-member/create', [TeamMemberController::class, 'create'])->name('superadmin.team_member.create');
     Route::post('/team-member/store', [TeamMemberController::class, 'store'])->name('superadmin.team_member.store');

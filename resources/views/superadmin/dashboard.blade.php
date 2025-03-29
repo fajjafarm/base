@@ -37,12 +37,13 @@
                 </div>
             </div>
             <div class="col-12 col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Water Meter Readings</h5>
-                        <a href="{{ route('superadmin.water_meter.create') }}" class="btn btn-primary">Add Reading</a>
-                    </div>
-                </div>
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h5 class="card-title">Water Meter Locations</h5>
+            <a href="{{ route('superadmin.water_meter.create') }}" class="btn btn-primary">Add Location</a>
+        </div>
+    </div>
+</div>
             </div>
             <div class="col-12 col-md-4">
                 <div class="card shadow-sm">
