@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('plantroom_components', function (Blueprint $table) {
             $table->id();
             $table->ulid('plantroom_id');
-            $table->enum('component_type', ['filter', 'strainer', 'cl_injector', 'ph_injector', 'pac_injector']);
+            $table->enum('component_type', ['filter', 'strainer', 'cl_injector', 'ph_injector', 'pac_injector', 'pump']);
             $table->integer('component_number');
             $table->text('description')->nullable();
             $table->timestamps();
