@@ -30,6 +30,7 @@
                                 <th>Action</th>
                                 <th>Pressure Before</th>
                                 <th>Pressure After</th>
+                                <th>Pump Status</th>
                                 <th>Reason</th>
                                 <th>Notes</th>
                                 <th>Signed</th>
@@ -57,6 +58,23 @@
                                     </td>
                                     <td>{{ $backwash->pressure_before ?? 'N/A' }}</td>
                                     <td>{{ $backwash->pressure_after ?? 'N/A' }}</td>
+                                    <td>
+                                        @if($backwash->pump_status == 'On')
+                                            <div class="btn btn-soft-success btn-icon btn-sm rounded-circle">
+                                                <iconify-icon icon="solar:check-circle-broken" class="fs-20"></iconify-icon>
+                                            </div>
+                                        @elseif($backwash->pump_status == 'Off - Standby')
+                                            <div class="btn btn-soft-danger btn-icon btn-sm rounded-circle">
+                                                <iconify-icon icon="solar:alarm-turn-off-broken" class="fs-20"></iconify-icon>
+                                            </div>
+                                        @elseif($backwash->pump_status == 'Off - Maintenance')
+                                            <div class="btn btn-soft-warning btn-icon btn-sm rounded-circle">
+                                                <iconify-icon icon="solar:shield-warning-broken" class="fs-20"></iconify-icon>
+                                            </div>
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
                                     <td>{{ $backwash->reason }}</td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" 

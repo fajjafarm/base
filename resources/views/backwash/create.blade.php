@@ -83,7 +83,7 @@
                                     <div class="col-12">
                                         <select class="form-select @error("strainers.{$strainer->id}.action") is-invalid @enderror" 
                                                 name="strainers[{{ $strainer->id }}][action]">
-                                            <option value="nothing" {{ old("strainers.{$strainer->id}.action") == 'nothing' ? 'selected' : '' }}>Nothing</option>
+                                            <option value="nothing" {{ old("strainers.{$strainer->id}.action", 'nothing') == 'nothing' ? 'selected' : '' }}>Nothing</option>
                                             @foreach($strainerActions as $action)
                                                 <option value="{{ $action }}" {{ old("strainers.{$strainer->id}.action") == $action ? 'selected' : '' }}>
                                                     {{ ucfirst($action) }}
@@ -113,7 +113,7 @@
                                         <div class="col-12">
                                             <select class="form-select @error("injectors.{$injector->id}.action") is-invalid @enderror" 
                                                     name="injectors[{{ $injector->id }}][action]">
-                                                <option value="nothing" {{ old("injectors.{$injector->id}.action") == 'nothing' ? 'selected' : '' }}>Nothing</option>
+                                                <option value="nothing" {{ old("injectors.{$injector->id}.action", 'nothing') == 'nothing' ? 'selected' : '' }}>Nothing</option>
                                                 @foreach($injectorActions as $action)
                                                     <option value="{{ $action }}" {{ old("injectors.{$injector->id}.action") == $action ? 'selected' : '' }}>
                                                         {{ ucfirst($action) }}
@@ -130,6 +130,35 @@
                             </div>
                         @endif
                     @endforeach
+
+                    <!-- Pumps -->
+                    @if($plantroom->components->where('component_type', 'pump')->isNotEmpty())
+                        <div class="mb-4">
+                            <h5 class="fw-semibold text-muted">Pumps</h5>
+                            @foreach($plantroom->components->where('component_type', 'pump') as $pump)
+                                <div class="row g-3 mb-3">
+                                    <div class="col-12">
+                                        <label class="form-label">Pump {{ $pump->component_number }} ({{ $pump->description ?? 'No description' }})</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <select class="form-select @error("pumps.{$pump->id}.status") is-invalid @enderror" 
+                                                name="pumps[{{ $pump->id }}][status]">
+                                            @foreach($pumpStatuses as $status)
+                                                <option value="{{ $status }}" 
+                                                        {{ old("pumps.{$pump->id}.status", $pumpLatestStatuses[$pump->id] ?? 'On') == $status ? 'selected' : '' }}>
+                                                    {{ $status }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" name="pumps[{{ $pump->id }}][component_id]" value="{{ $pump->id }}">
+                                        @error("pumps.{$pump->id}.status")
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
 
                     <!-- Notes -->
                     <div class="mb-4">

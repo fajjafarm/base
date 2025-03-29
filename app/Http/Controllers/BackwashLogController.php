@@ -15,8 +15,18 @@ class BackwashLogController extends Controller
         $reasons = ['Scheduled', 'High Pressure', 'Water Clarity', 'Water Balance', 'Maintenance', 'Code Brown'];
         $strainerActions = ['cleaned', 'changed', 'nothing'];
         $injectorActions = ['checked', 'cleaned', 'changed', 'nothing'];
+        $pumpStatuses = ['On', 'Off - Standby', 'Off - Maintenance'];
 
-        return view('backwash.create', compact('plantroom', 'reasons', 'strainerActions', 'injectorActions'));
+        // Get the latest status for each pump
+        $pumpLatestStatuses = BackwashLog::where('plantroom_id', $plantroom_id)
+            ->whereNotNull('pump_status')
+            ->whereIn('component_id', $plantroom->components->where('component_type', 'pump')->pluck('id'))
+            ->orderBy('performed_at', 'desc')
+            ->get()
+            ->groupBy('component_id')
+            ->map(fn($group) => $group->first()->pump_status);
+
+        return view('backwash.create', compact('plantroom', 'reasons', 'strainerActions', 'injectorActions', 'pumpStatuses', 'pumpLatestStatuses'));
     }
 
     public function store(Request $request)
@@ -35,9 +45,12 @@ class BackwashLogController extends Controller
             'injectors' => 'nullable|array',
             'injectors.*.component_id' => 'required_with:injectors.*.action|exists:plantroom_components,id',
             'injectors.*.action' => 'nullable|in:checked,cleaned,changed,nothing',
+            'pumps' => 'nullable|array',
+            'pumps.*.component_id' => 'required_with:pumps.*.status|exists:plantroom_components,id',
+            'pumps.*.status' => 'nullable|in:On,Off - Standby,Off - Maintenance',
         ]);
 
-        // Log each component action
+        // Log filters
         if (isset($validated['filters'])) {
             foreach ($validated['filters'] as $filter) {
                 if ($filter['pressure_before'] || $filter['pressure_after']) {
@@ -54,6 +67,7 @@ class BackwashLogController extends Controller
             }
         }
 
+        // Log strainers
         if (isset($validated['strainers'])) {
             foreach ($validated['strainers'] as $strainer) {
                 if ($strainer['action'] && $strainer['action'] !== 'nothing') {
@@ -69,6 +83,7 @@ class BackwashLogController extends Controller
             }
         }
 
+        // Log injectors
         if (isset($validated['injectors'])) {
             foreach ($validated['injectors'] as $injector) {
                 if ($injector['action'] && $injector['action'] !== 'nothing') {
@@ -77,6 +92,22 @@ class BackwashLogController extends Controller
                         'component_id' => $injector['component_id'],
                         'reason' => $validated['reason'],
                         'injector_action' => $injector['action'],
+                        'user_id' => auth()->id(),
+                        'notes' => $validated['notes'],
+                    ]);
+                }
+            }
+        }
+
+        // Log pumps
+        if (isset($validated['pumps'])) {
+            foreach ($validated['pumps'] as $pump) {
+                if ($pump['status']) {
+                    BackwashLog::create([
+                        'plantroom_id' => $validated['plantroom_id'],
+                        'component_id' => $pump['component_id'],
+                        'reason' => $validated['reason'],
+                        'pump_status' => $pump['status'],
                         'user_id' => auth()->id(),
                         'notes' => $validated['notes'],
                     ]);

@@ -9,11 +9,14 @@ class BackwashLog extends Model
     protected $table = 'backwash_logs';
 
     protected $fillable = [
-        'plantroom_id', 'component_id', 'action', 'performed_at', 'user_id', 'notes'
+        'plantroom_id', 'component_id', 'reason', 'pressure_before', 'pressure_after', 
+        'strainer_action', 'injector_action', 'pump_status', 'notes', 'user_id', 'performed_at'
     ];
 
     protected $casts = [
         'performed_at' => 'datetime',
+        'pressure_before' => 'decimal:2',
+        'pressure_after' => 'decimal:2',
     ];
 
     public function plantroom()
