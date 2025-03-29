@@ -33,7 +33,7 @@ use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
 require __DIR__ . '/auth.php';
 
-Route::prefix('superadmin')->group(function () {
+Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('superadmin.dashboard');
 
     Route::get('/plantroom/create', [SuperAdminPlantroomController::class, 'create'])->name('superadmin.plantroom.create');
