@@ -25,6 +25,16 @@
     </button>
 
     <div data-simplebar>
+    <ul class="side-nav">
+    <!-- Existing items -->
+    @if(auth()->check() && auth()->user()->isSuperAdmin())
+        <li class="side-nav-item">
+            <a href="{{ route('superadmin.dashboard') }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-shield"></i></span>
+                <span class="menu-text">Super Admin</span>
+            </a>
+        </li>
+    @endif </ul>
 
         <!--- my menu -->
 

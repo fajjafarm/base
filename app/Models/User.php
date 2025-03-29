@@ -58,4 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany(TrainingSession::class)
             ->withPivot('comments');
     }
+    public function isSuperAdmin()
+    {
+        // Adjust this condition based on your super admin identifier
+        return $this->id === 1; // Example: User with ID 1 is super admin
+        // Or: return $this->email === 'your@email.com';
+        // Or add a column: $table->boolean('is_super_admin')->default(false);
+    }
 }
