@@ -28,15 +28,7 @@ use App\Http\Controllers\SuperAdmin\SuperAdminThermalSuiteController;
 use App\Http\Controllers\SuperAdmin\SuperAdminWaterMeterController;
 use App\Http\Controllers\SuperAdmin\SuperAdminTeamMemberController;
 use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 //super admin access only
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
 require __DIR__ . '/auth.php';
