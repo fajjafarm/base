@@ -8,7 +8,7 @@ class Kernel extends HttpKernel
 {
     // ...
 
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         // Existing middleware...
         'auth' => \App\Http\Middleware\Authenticate::class,
         'superadmin' => \App\Http\Middleware\SuperAdminOnly::class, // Add this line
