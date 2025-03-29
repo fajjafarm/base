@@ -21,11 +21,12 @@ use App\Http\Controllers\BikeRentalOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrainingSessionController;
 use App\Http\Controllers\BackwashLogController;
-use App\Http\Controllers\SuperAdmin\PlantroomController;
+use App\Http\Controllers\SuperAdmin\SuperAdminPlantroomController;
 use App\Http\Controllers\SuperAdmin\PlantroomComponentController;
 use App\Http\Controllers\SuperAdmin\PoolController;
 use App\Http\Controllers\SuperAdmin\ThermalSuiteController;
 use App\Http\Controllers\SuperAdmin\WaterMeterReadingController;
+use App\Http\Controllers\SuperAdmin\WaterMeterController;
 use App\Http\Controllers\SuperAdmin\TeamMemberController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 /*
@@ -45,8 +46,8 @@ require __DIR__ . '/auth.php';
 Route::prefix('superadmin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
 
-    Route::get('/plantroom/create', [PlantroomController::class, 'create'])->name('superadmin.plantroom.create');
-    Route::post('/plantroom/store', [PlantroomController::class, 'store'])->name('superadmin.plantroom.store');
+    Route::get('/plantroom/create', [SuperAdminPlantroomController::class, 'create'])->name('superadmin.plantroom.create');
+    Route::post('/plantroom/store', [SuperAdminPlantroomController::class, 'store'])->name('superadmin.plantroom.store');
 
     Route::get('/plantroom/components/create/{plantroom_id}', [PlantroomComponentController::class, 'create'])->name('superadmin.plantroom.components.create');
     Route::post('/plantroom/components/store/{plantroom_id}', [PlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');

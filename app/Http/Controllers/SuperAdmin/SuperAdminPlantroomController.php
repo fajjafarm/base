@@ -8,7 +8,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class PlantroomController extends SuperAdminController
+class SuperAdminPlantroomController extends SuperAdminController
 {
     public function create()
     {
