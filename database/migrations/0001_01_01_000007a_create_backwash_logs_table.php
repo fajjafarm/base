@@ -12,7 +12,8 @@ return new class extends Migration
             $table->id();
             $table->ulid('plantroom_id');
             $table->unsignedBigInteger('component_id');
-            $table->enum('action', ['backwash', 'clean']);
+            $table->enum('action', ['Backwash', 'Service']);
+            $table->enum('pump_status', ['On', 'Off - Standby', 'Off - Maintenance'])->nullable()->after('injector_action')
             $table->timestamp('performed_at')->useCurrent();
             $table->string('user_id');
             $table->text('notes')->nullable();
