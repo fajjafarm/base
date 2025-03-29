@@ -23,7 +23,7 @@ use App\Http\Controllers\TrainingSessionController;
 use App\Http\Controllers\BackwashLogController;
 use App\Http\Controllers\SuperAdmin\SuperAdminPlantroomController;
 use App\Http\Controllers\SuperAdmin\PlantroomComponentController;
-use App\Http\Controllers\SuperAdmin\PoolController;
+use App\Http\Controllers\SuperAdmin\SuperAdminPoolController;
 use App\Http\Controllers\SuperAdmin\ThermalSuiteController;
 use App\Http\Controllers\SuperAdmin\WaterMeterReadingController;
 use App\Http\Controllers\SuperAdmin\WaterMeterController;
@@ -52,8 +52,8 @@ Route::prefix('superadmin')->group(function () {
     Route::get('/plantroom/components/create/{plantroom_id}', [PlantroomComponentController::class, 'create'])->name('superadmin.plantroom.components.create');
     Route::post('/plantroom/components/store/{plantroom_id}', [PlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
 
-    Route::get('/pool/create', [PoolController::class, 'create'])->name('superadmin.pool.create');
-    Route::post('/pool/store', [PoolController::class, 'store'])->name('superadmin.pool.store');
+    Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
+    Route::post('/pool/store', [SuperAdminPoolController::class, 'store'])->name('superadmin.pool.store');
 
     Route::get('/thermal-suite/create', [ThermalSuiteController::class, 'create'])->name('superadmin.thermal_suite.create');
     Route::post('/thermal-suite/store', [ThermalSuiteController::class, 'store'])->name('superadmin.thermal_suite.store');

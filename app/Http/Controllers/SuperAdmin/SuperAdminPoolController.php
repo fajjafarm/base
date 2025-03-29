@@ -7,7 +7,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class PoolController extends SuperAdminController
+class SuperAdminPoolController extends SuperAdminController
 {
     public function create()
     {
