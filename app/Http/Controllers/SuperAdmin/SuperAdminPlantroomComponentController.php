@@ -6,7 +6,7 @@ use App\Models\PlantroomList;
 use App\Models\PlantroomComponent;
 use Illuminate\Http\Request;
 
-class PlantroomComponentController extends SuperAdminController
+class SuperAdminPlantroomComponentController extends SuperAdminController
 {
     public function create($plantroom_id)
     {

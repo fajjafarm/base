@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class TeamMemberController extends SuperAdminController
+class SuperAdminTeamMemberController extends SuperAdminController
 {
     public function create()
     {

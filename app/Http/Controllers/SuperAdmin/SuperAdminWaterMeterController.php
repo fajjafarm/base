@@ -6,7 +6,7 @@ use App\Models\WaterMeter;
 use App\Models\PlantroomList;
 use Illuminate\Http\Request;
 
-class WaterMeterController extends SuperAdminController
+class SuperAdminWaterMeterController extends SuperAdminController
 {
     public function create()
     {

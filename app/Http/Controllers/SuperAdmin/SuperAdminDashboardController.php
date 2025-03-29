@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\SuperAdmin;
 
-class DashboardController extends SuperAdminController
+class SuperAdminDashboardController extends SuperAdminController
 {
     public function index()
     {

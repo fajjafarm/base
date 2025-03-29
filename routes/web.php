@@ -22,14 +22,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrainingSessionController;
 use App\Http\Controllers\BackwashLogController;
 use App\Http\Controllers\SuperAdmin\SuperAdminPlantroomController;
-use App\Http\Controllers\SuperAdmin\PlantroomComponentController;
+use App\Http\Controllers\SuperAdmin\SuperAdminPlantroomComponentController;
 use App\Http\Controllers\SuperAdmin\SuperAdminPoolController;
-use App\Http\Controllers\SuperAdmin\ThermalSuiteController;
-use App\Http\Controllers\SuperAdmin\WaterMeterReadingController;
-use App\Http\Controllers\SuperAdmin\WaterMeterController;
-use App\Http\Controllers\SuperAdmin\TeamMemberController;
-use App\Http\Controllers\SuperAdmin\DashboardController;
-/*
+use App\Http\Controllers\SuperAdmin\SuperAdminThermalSuiteController;
+use App\Http\Controllers\SuperAdmin\SuperAdminWaterMeterController;
+use App\Http\Controllers\SuperAdmin\SuperAdminTeamMemberController;
+use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -44,25 +42,25 @@ use App\Http\Controllers\SuperAdmin\DashboardController;
 require __DIR__ . '/auth.php';
 
 Route::prefix('superadmin')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('superadmin.dashboard');
 
     Route::get('/plantroom/create', [SuperAdminPlantroomController::class, 'create'])->name('superadmin.plantroom.create');
     Route::post('/plantroom/store', [SuperAdminPlantroomController::class, 'store'])->name('superadmin.plantroom.store');
 
-    Route::get('/plantroom/components/create/{plantroom_id}', [PlantroomComponentController::class, 'create'])->name('superadmin.plantroom.components.create');
-    Route::post('/plantroom/components/store/{plantroom_id}', [PlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
+    Route::get('/plantroom/components/create/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'create'])->name('superadmin.plantroom.components.create');
+    Route::post('/plantroom/components/store/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
 
     Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
     Route::post('/pool/store', [SuperAdminPoolController::class, 'store'])->name('superadmin.pool.store');
 
-    Route::get('/thermal-suite/create', [ThermalSuiteController::class, 'create'])->name('superadmin.thermal_suite.create');
-    Route::post('/thermal-suite/store', [ThermalSuiteController::class, 'store'])->name('superadmin.thermal_suite.store');
+    Route::get('/thermal-suite/create', [SuperAdminThermalSuiteController::class, 'create'])->name('superadmin.thermal_suite.create');
+    Route::post('/thermal-suite/store', [SuperAdminThermalSuiteController::class, 'store'])->name('superadmin.thermal_suite.store');
 
-    Route::get('/water-meter/create', [WaterMeterController::class, 'create'])->name('superadmin.water_meter.create');
-    Route::post('/water-meter/store', [WaterMeterController::class, 'store'])->name('superadmin.water_meter.store');
+    Route::get('/water-meter/create', [SuperAdminWaterMeterController::class, 'create'])->name('superadmin.water_meter.create');
+    Route::post('/water-meter/store', [SuperAdminWaterMeterController::class, 'store'])->name('superadmin.water_meter.store');
 
-    Route::get('/team-member/create', [TeamMemberController::class, 'create'])->name('superadmin.team_member.create');
-    Route::post('/team-member/store', [TeamMemberController::class, 'store'])->name('superadmin.team_member.store');
+    Route::get('/team-member/create', [SuperAdminTeamMemberController::class, 'create'])->name('superadmin.team_member.create');
+    Route::post('/team-member/store', [SuperAdminTeamMemberController::class, 'store'])->name('superadmin.team_member.store');
 });
 
 Route::get('/backwashes/{plantroom_id}', [BackwashLogController::class, 'index'])->name('backwashes.index');

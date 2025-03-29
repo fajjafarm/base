@@ -7,7 +7,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class ThermalSuiteController extends SuperAdminController
+class SuperAdminThermalSuiteController extends SuperAdminController
 {
     public function create()
     {
