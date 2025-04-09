@@ -14,6 +14,8 @@ return new class extends Migration
             $table->enum('action', ['Backwash', 'Service']);
             $table->enum('pump_status', ['On', 'Off - Standby', 'Off - Maintenance'])->nullable();
             $table->enum('reason', ['Scheduled', 'High Pressure', 'Water Clarity', 'Water Balance', 'Maintenance', 'Code Brown'])->nullable();
+            $table->decimal('pressure_before', 5, 2)->nullable()->after('reason');
+            $table->decimal('pressure_after', 5, 2)->nullable()->after('pressure_before');
             $table->timestamp('performed_at')->useCurrent();
             $table->string('user_id');
             $table->text('notes')->nullable();
