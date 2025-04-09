@@ -1,6 +1,4 @@
-// app/Http/Controllers/BackwashLogController.php
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\PlantroomList;
