@@ -1,6 +1,4 @@
-// app/Models/BackwashLog.php
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
