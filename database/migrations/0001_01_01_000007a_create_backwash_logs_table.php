@@ -24,7 +24,7 @@ return new class extends Migration
 
     $table->foreign('plantroom_id')->references('plantroom_id')->on('plantroom_list')->onDelete('cascade');
     $table->foreign('component_id')->references('id')->on('plantroom_components')->onDelete('cascade');
-        });
+         });
     }
 
     public function down(): void
