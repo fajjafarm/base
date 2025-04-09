@@ -14,6 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('component_id');
             $table->enum('action', ['Backwash', 'Service']);
             $table->enum('pump_status', ['On', 'Off - Standby', 'Off - Maintenance'])->nullable();
+            $table->enum('reason', ['Scheduled', 'High Pressure', 'Water Clarity', 'Water Balance', 'Maintenance', 'Code Brown'])->nullable();
             $table->timestamp('performed_at')->useCurrent();
             $table->string('user_id');
             $table->text('notes')->nullable();
