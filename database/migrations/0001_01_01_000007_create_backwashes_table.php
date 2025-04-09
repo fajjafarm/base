@@ -1,41 +1,35 @@
+// database/migrations/2025_03_29_create_backwash_logs_table.php
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBackwashesTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('backwashes', function (Blueprint $table) {
+        Schema::create('backwash_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pool_id');
-            $table->decimal('filter1_before_pressure', 5, 2)->nullable();
-            $table->decimal('filter1_after_pressure', 5, 2)->nullable();
-            $table->boolean('filter1_backwashed')->default(false);
-            $table->boolean('basket1_cleaned')->default(false);
-            $table->decimal('filter2_before_pressure', 5, 2)->nullable();
-            $table->decimal('filter2_after_pressure', 5, 2)->nullable();
-            $table->boolean('filter2_backwashed')->default(false);
-            $table->boolean('basket2_cleaned')->default(false);
-            $table->decimal('filter3_before_pressure', 5, 2)->nullable();
-            $table->decimal('filter3_after_pressure', 5, 2)->nullable();
-            $table->boolean('filter3_backwashed')->default(false);
-            $table->boolean('basket3_cleaned')->default(false);
-            $table->string('reason_for_backwash');
-            $table->string('pump1_status');
-            $table->string('pump2_status');
-            $table->string('pump3_status');
-            $table->text('issues')->nullable();
-            $table->string('performed_by');
+            $table->ulid('plantroom_id');
+            $table->unsignedBigInteger('component_id')->nullable(); // Nullable for general logs
+            $table->enum('reason', ['Scheduled', 'High Pressure', 'Water Clarity', 'Water Balance', 'Maintenance', 'Code Brown'])->nullable();
+            $table->decimal('pressure_before', 5, 2)->nullable(); // For filters
+            $table->decimal('pressure_after', 5, 2)->nullable(); // For filters
+            $table->enum('strainer_action', ['cleaned', 'changed', 'nothing'])->nullable();
+            $table->enum('injector_action', ['checked', 'cleaned', 'changed', 'nothing'])->nullable();
+            $table->text('notes')->nullable();
+            $table->string('user_id');
+            $table->timestamp('performed_at')->useCurrent();
             $table->timestamps();
 
-            });
+            $table->foreign('plantroom_id')->references('plantroom_id')->on('plantroom_list')->onDelete('cascade');
+            $table->foreign('component_id')->references('id')->on('plantroom_components')->onDelete('cascade');
+        });
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('backwashes');
+        Schema::dropIfExists('backwash_logs');
     }
-}
+};

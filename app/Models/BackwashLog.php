@@ -1,3 +1,4 @@
+// app/Models/BackwashLog.php
 <?php
 
 namespace App\Models;
@@ -6,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BackwashLog extends Model
 {
-    protected $table = 'backwash_logs';
+    protected $table = 'backwash_logs'; // Ensure this is set
 
     protected $fillable = [
         'plantroom_id', 'component_id', 'reason', 'pressure_before', 'pressure_after', 

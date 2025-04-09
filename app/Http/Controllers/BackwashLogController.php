@@ -1,3 +1,4 @@
+// app/Http/Controllers/BackwashLogController.php
 <?php
 
 namespace App\Http\Controllers;
@@ -17,7 +18,6 @@ class BackwashLogController extends Controller
         $injectorActions = ['checked', 'cleaned', 'changed', 'nothing'];
         $pumpStatuses = ['On', 'Off - Standby', 'Off - Maintenance'];
 
-        // Get the latest status for each pump
         $pumpLatestStatuses = BackwashLog::where('plantroom_id', $plantroom_id)
             ->whereNotNull('pump_status')
             ->whereIn('component_id', $plantroom->components->where('component_type', 'pump')->pluck('id'))
@@ -50,7 +50,6 @@ class BackwashLogController extends Controller
             'pumps.*.status' => 'nullable|in:On,Off - Standby,Off - Maintenance',
         ]);
 
-        // Log filters
         if (isset($validated['filters'])) {
             foreach ($validated['filters'] as $filter) {
                 if ($filter['pressure_before'] || $filter['pressure_after']) {
@@ -67,7 +66,6 @@ class BackwashLogController extends Controller
             }
         }
 
-        // Log strainers
         if (isset($validated['strainers'])) {
             foreach ($validated['strainers'] as $strainer) {
                 if ($strainer['action'] && $strainer['action'] !== 'nothing') {
@@ -83,7 +81,6 @@ class BackwashLogController extends Controller
             }
         }
 
-        // Log injectors
         if (isset($validated['injectors'])) {
             foreach ($validated['injectors'] as $injector) {
                 if ($injector['action'] && $injector['action'] !== 'nothing') {
@@ -99,7 +96,6 @@ class BackwashLogController extends Controller
             }
         }
 
-        // Log pumps
         if (isset($validated['pumps'])) {
             foreach ($validated['pumps'] as $pump) {
                 if ($pump['status']) {
