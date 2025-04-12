@@ -18,7 +18,7 @@
                     @csrf
                     <div id="components">
                         <!-- Initial component form -->
-                        <div class="component mb-3 row g-3">
+                        <div class="component mb-3 row g-3" data-component-index="0">
                             <div class="col-md-3">
                                 <select class="form-select @error('components.0.type') is-invalid @enderror" 
                                         name="components[0][type]" required>
@@ -64,45 +64,58 @@
 
     @push('js')
         <script>
-            let componentCount = 1;
+            (function () {
+                let componentCount = 1;
+                const addButton = document.getElementById('add-component');
+                const componentsContainer = document.getElementById('components');
 
-            document.getElementById('add-component').addEventListener('click', function () {
-                const container = document.getElementById('components');
-                const newComponent = `
-                    <div class="component mb-3 row g-3">
-                        <div class="col-md-3">
-                            <select class="form-select" name="components[${componentCount}][type]" required>
-                                <option value="">Select Type</option>
-                                <option value="filter">Filter</option>
-                                <option value="strainer">Strainer</option>
-                                <option value="cl_injector">Chlorine Injector</option>
-                                <option value="ph_injector">pH Injector</option>
-                                <option value="pac_injector">PAC Injector</option>
-                                <option value="pump">Pump</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="number" class="form-control" name="components[${componentCount}][number]" min="1" placeholder="Number" required>
-                        </div>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" name="components[${componentCount}][description]" placeholder="Description">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-danger remove-component">Remove</button>
-                        </div>
-                    </div>`;
-                container.insertAdjacentHTML('beforeend', newComponent);
-                componentCount++;
-            });
-
-            document.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-component')) {
-                    const componentDiv = e.target.closest('.component');
-                    if (document.querySelectorAll('.component').length > 1) {
-                        componentDiv.remove();
-                    }
+                if (!addButton || !componentsContainer) {
+                    console.error('Add button or components container not found!');
+                    return;
                 }
-            });
+
+                addButton.addEventListener('click', function () {
+                    const newComponent = `
+                        <div class="component mb-3 row g-3" data-component-index="${componentCount}">
+                            <div class="col-md-3">
+                                <select class="form-select" name="components[${componentCount}][type]" required>
+                                    <option value="">Select Type</option>
+                                    <option value="filter">Filter</option>
+                                    <option value="strainer">Strainer</option>
+                                    <option value="cl_injector">Chlorine Injector</option>
+                                    <option value="ph_injector">pH Injector</option>
+                                    <option value="pac_injector">PAC Injector</option>
+                                    <option value="pump">Pump</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="components[${componentCount}][number]" min="1" placeholder="Number" required>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" name="components[${componentCount}][description]" placeholder="Description">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger remove-component">Remove</button>
+                            </div>
+                        </div>`;
+                    componentsContainer.insertAdjacentHTML('beforeend', newComponent);
+                    componentCount++;
+                    console.log('Added component form line:', componentCount);
+                });
+
+                componentsContainer.addEventListener('click', function (e) {
+                    if (e.target.classList.contains('remove-component')) {
+                        const componentDiv = e.target.closest('.component');
+                        const components = document.querySelectorAll('.component');
+                        if (components.length > 1) {
+                            componentDiv.remove();
+                            console.log('Removed component form line');
+                        } else {
+                            console.warn('Cannot remove the last component');
+                        }
+                    }
+                });
+            })();
         </script>
     @endpush
 @endsection
