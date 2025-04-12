@@ -1,9 +1,15 @@
-@extends('layouts.vertical', ['title' => 'Add Components for ' . $plantroom->plantroom_name])
+@extends('layouts.vertical', ['title' => 'Specify Components for ' . $plantroom->plantroom_name])
 
 @section('content')
-    @include('layouts.partials.page-title', ['subtitle' => 'Super Admin', 'title' => 'Add Plantroom Components'])
+    @include('layouts.partials.page-title', ['subtitle' => 'Super Admin', 'title' => 'Specify Plantroom Components'])
 
     <div class="container mt-4 mb-5">
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -13,109 +19,41 @@
 
         <div class="card shadow-sm">
             <div class="card-body p-4">
-                <h2 class="card-title mb-4">Add Components for {{ $plantroom->plantroom_name }}</h2>
-                <form action="{{ route('superadmin.plantroom.components.store', $plantroom->plantroom_id) }}" method="POST">
+                <h2 class="card-title mb-4">Specify Components for {{ $plantroom->plantroom_name }}</h2>
+                <form action="{{ route('superadmin.plantroom.components.count', $plantroom->plantroom_id) }}" method="POST">
                     @csrf
-                    <div id="components">
-                        <!-- Initial component form -->
-                        <div class="component mb-3 row g-3" data-component-index="0">
-                            <div class="col-md-3">
-                                <select class="form-select @error('components.0.type') is-invalid @enderror" 
-                                        name="components[0][type]" required>
-                                    <option value="">Select Type</option>
-                                    <option value="filter" {{ old('components.0.type') == 'filter' ? 'selected' : '' }}>Filter</option>
-                                    <option value="strainer" {{ old('components.0.type') == 'strainer' ? 'selected' : '' }}>Strainer</option>
-                                    <option value="cl_injector" {{ old('components.0.type') == 'cl_injector' ? 'selected' : '' }}>Chlorine Injector</option>
-                                    <option value="ph_injector" {{ old('components.0.type') == 'ph_injector' ? 'selected' : '' }}>pH Injector</option>
-                                    <option value="pac_injector" {{ old('components.0.type') == 'pac_injector' ? 'selected' : '' }}>PAC Injector</option>
-                                    <option value="pump" {{ old('components.0.type') == 'pump' ? 'selected' : '' }}>Pump</option>
-                                </select>
-                                @error('components.0.type')
+                    <p class="text-muted mb-4">Enter the number of each component type in this plantroom.</p>
+
+                    <div class="row g-3">
+                        @foreach([
+                            'filter' => 'Filters',
+                            'strainer' => 'Strainers',
+                            'cl_injector' => 'Chlorine Injectors',
+                            'ph_injector' => 'pH Injectors',
+                            'pac_injector' => 'PAC Injectors',
+                            'pump' => 'Pumps'
+                        ] as $type => $label)
+                            <div class="col-md-4">
+                                <label for="counts_{{ $type }}" class="form-label">{{ $label }}</label>
+                                <input type="number" 
+                                       class="form-control @error("counts.{$type}") is-invalid @enderror" 
+                                       name="counts[{{ $type }}]" 
+                                       id="counts_{{ $type }}" 
+                                       min="0" 
+                                       value="{{ old("counts.{$type}", 0) }}" 
+                                       required>
+                                @error("counts.{$type}")
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-2">
-                                <input type="number" class="form-control @error('components.0.number') is-invalid @enderror" 
-                                       name="components[0][number]" min="1" placeholder="Number" 
-                                       value="{{ old('components.0.number') }}" required>
-                                @error('components.0.number')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control @error('components.0.description') is-invalid @enderror" 
-                                       name="components[0][description]" placeholder="Description" 
-                                       value="{{ old('components.0.description') }}">
-                                @error('components.0.description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-danger remove-component">Remove</button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-                    <button type="button" id="add-component" class="btn btn-secondary mb-3">Add Another Component</button>
-                    <button type="submit" class="btn btn-primary">Save All Components</button>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Proceed to Component Details</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
-
-    @push('js')
-        <script>
-            (function () {
-                let componentCount = 1;
-                const addButton = document.getElementById('add-component');
-                const componentsContainer = document.getElementById('components');
-
-                if (!addButton || !componentsContainer) {
-                    console.error('Add button or components container not found!');
-                    return;
-                }
-
-                addButton.addEventListener('click', function () {
-                    const newComponent = `
-                        <div class="component mb-3 row g-3" data-component-index="${componentCount}">
-                            <div class="col-md-3">
-                                <select class="form-select" name="components[${componentCount}][type]" required>
-                                    <option value="">Select Type</option>
-                                    <option value="filter">Filter</option>
-                                    <option value="strainer">Strainer</option>
-                                    <option value="cl_injector">Chlorine Injector</option>
-                                    <option value="ph_injector">pH Injector</option>
-                                    <option value="pac_injector">PAC Injector</option>
-                                    <option value="pump">Pump</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <input type="number" class="form-control" name="components[${componentCount}][number]" min="1" placeholder="Number" required>
-                            </div>
-                            <div class="col-md-5">
-                                <input type="text" class="form-control" name="components[${componentCount}][description]" placeholder="Description">
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-danger remove-component">Remove</button>
-                            </div>
-                        </div>`;
-                    componentsContainer.insertAdjacentHTML('beforeend', newComponent);
-                    componentCount++;
-                    console.log('Added component form line:', componentCount);
-                });
-
-                componentsContainer.addEventListener('click', function (e) {
-                    if (e.target.classList.contains('remove-component')) {
-                        const componentDiv = e.target.closest('.component');
-                        const components = document.querySelectorAll('.component');
-                        if (components.length > 1) {
-                            componentDiv.remove();
-                            console.log('Removed component form line');
-                        } else {
-                            console.warn('Cannot remove the last component');
-                        }
-                    }
-                });
-            })();
-        </script>
-    @endpush
 @endsection

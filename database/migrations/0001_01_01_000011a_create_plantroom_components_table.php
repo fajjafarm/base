@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->ulid('plantroom_id');
             $table->enum('component_type', ['filter', 'strainer', 'cl_injector', 'ph_injector', 'pac_injector', 'pump']);
-            $table->integer('component_number');
+            $table->string('component_number');
             $table->text('description')->nullable();
             $table->timestamps();
 

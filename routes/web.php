@@ -40,6 +40,8 @@ Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function 
     Route::post('/plantroom/store', [SuperAdminPlantroomController::class, 'store'])->name('superadmin.plantroom.store');
 
     Route::get('/plantroom/components/create/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'create'])->name('superadmin.plantroom.components.create');
+    Route::post('/plantroom/components/count/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'storeCounts'])->name('superadmin.plantroom.components.count');
+    Route::get('/plantroom/components/details/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'details'])->name('superadmin.plantroom.components.details');
     Route::post('/plantroom/components/store/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
 
     Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
