@@ -4,34 +4,34 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Models\PlantroomList;
 use App\Models\PlantroomComponent;
-use App\Models\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class SuperAdminPlantroomController extends SuperAdminController
+class SuperAdminPlantroomComponentController extends SuperAdminController
 {
-    public function create()
+    public function create($plantroom_id)
     {
-        $clients = Client::all(['client_id', 'company_name']);
-        return view('superadmin.plantroom.create', compact('clients'));
+        $plantroom = PlantroomList::findOrFail($plantroom_id);
+        return view('superadmin.plantroom.components.create', compact('plantroom'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $plantroom_id)
     {
         $validated = $request->validate([
-            'client_id' => 'required|exists:clients,client_id',
-            'plantroom_name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'components' => 'required|array|min:1',
+            'components.*.type' => 'required|in:filter,strainer,cl_injector,ph_injector,pac_injector,pump',
+            'components.*.number' => 'required|integer|min:1',
+            'components.*.description' => 'nullable|string|max:255',
         ]);
 
-        $plantroom = PlantroomList::create([
-            'plantroom_id' => Str::ulid(),
-            'client_id' => $validated['client_id'],
-            'plantroom_name' => $validated['plantroom_name'],
-            'description' => $validated['description'],
-        ]);
+        foreach ($validated['components'] as $component) {
+            PlantroomComponent::create([
+                'plantroom_id' => $plantroom_id,
+                'component_type' => $component['type'],
+                'component_number' => $component['number'],
+                'description' => $component['description'],
+            ]);
+        }
 
-        return redirect()->route('superadmin.plantroom.components.create', $plantroom->plantroom_id)
-            ->with('success', 'Plantroom created. Now add components.');
+        return redirect()->route('superadmin.dashboard')->with('success', 'Components added successfully.');
     }
 }
