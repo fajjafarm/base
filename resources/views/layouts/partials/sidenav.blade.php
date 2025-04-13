@@ -42,10 +42,9 @@
 
         @include('partials.thermal-suite-menu')   
                  
-                       
-                
-           
-            @include('partials.plantroom-menu')
+        @include('partials.plantroom-menu')
+
+        
             <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarWaterMEterREadings" aria-expanded="false" aria-controls="sidebarWaterMEterREadings" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti ti-dashboard"></i></span>
