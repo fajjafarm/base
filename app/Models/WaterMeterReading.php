@@ -1,34 +1,29 @@
 <?php
 
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class WaterMeterReading extends Model
 {
     protected $table = 'water_meter_readings';
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) Str::ulid();
-        });
-    }
 
     protected $fillable = [
-        'reading_id', 
-        'meter_reading', 
-        'difference',
-        'plantroom_id', 
-        'logged_by'
+        'water_meter_id',
+        'reading_value',
+        'reading_date',
+        'notes',
     ];
 
-    public function getKeyName()
+    protected $casts = [
+        'reading_date' => 'datetime',
+        'reading_value' => 'decimal:2',
+    ];
+
+    public function waterMeter()
     {
-        return 'reading_id';
+        return $this->belongsTo(WaterMeter::class, 'water_meter_id', 'id');
     }
 }

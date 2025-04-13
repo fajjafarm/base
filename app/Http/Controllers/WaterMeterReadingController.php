@@ -2,76 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WaterMeter;
 use App\Models\WaterMeterReading;
-use App\Models\PoolList;
-use App\Models\PlantroomList;
-use App\Charts\WaterBalanceChart;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use ArielMejiaDev\LarapexCharts\LarapexChart;
-
-
 
 class WaterMeterReadingController extends Controller
 {
-    public function index($plantroomID, LarapexChart $chart)
+    public function index(Request $request, $water_meter_id = null)
     {
-        $readings = WaterMeterReading::where('plantroom_id', $plantroomID)->orderBy('created_at', 'desc')->get();
-        // $poolName = PoolList::where('pool_name', $poolID)->get();
-        $plantroomName = PlantroomList::where('plantroom_id', $plantroomID)->value('plantroom_name');
-        $watermeterreadings = WaterMeterReading::where('plantroom_id', $plantroomID)->orderBy('created_at', 'asc')->get();
-        $i=0;
-        $diffs = array();
-        $count = 0;
-        $prevNum =0;
-$diffs = 0;
-foreach($watermeterreadings as $i =>$watermeterreading) { 
-    
-    $diffs = $watermeterreading['meter_reading'] - $prevNum; 
-    $prevNum = $watermeterreading['meter_reading'];
-    $i++;
+        // If no water_meter_id, fetch all meters for dropdown
+        $waterMeters = WaterMeter::all(['id', 'location']);
+        $waterMeter = $water_meter_id ? WaterMeter::findOrFail($water_meter_id) : null;
+        $readings = $waterMeter ? $waterMeter->readings()->orderBy('reading_date', 'desc')->get() : collect();
 
-} 
+        // Calculate daily usage for chart
+        $chartData = [];
+        if ($waterMeter) {
+            $previousReading = null;
+            foreach ($readings as $index => $reading) {
+                if ($previousReading) {
+                    $daysDiff = Carbon::parse($reading->reading_date)->diffInDays($previousReading->reading_date);
+                    $usage = $previousReading->reading_value - $reading->reading_value;
 
+                    if ($usage < 0) {
+                        // Skip negative usage (possible meter reset)
+                        continue;
+                    }
 
-        $labels = [];
-        $litres = [];
-
-        foreach ($watermeterreadings as $watermeterreading){
-
-            $labels[]=date_format($watermeterreading['created_at'],'d/m/y');
-            $litres[]=$watermeterreading['difference'];
-
+                    $dailyUsage = $daysDiff > 0 ? $usage / $daysDiff : $usage;
+                    $chartData[] = [
+                        'date' => Carbon::parse($reading->reading_date)->format('Y-m-d'),
+                        'usage' => round($dailyUsage, 2),
+                    ];
+                }
+                $previousReading = $reading;
+            }
+            // Reverse for chronological order
+            $chartData = array_reverse($chartData);
         }
-        $chart = $chart->barChart()
-        ->setTitle('Litres')
-        ->addData('litres',  $litres)
-        ->setXAxis( $labels);
-        
-           return view('water-meter-readings.index', compact('readings' ,'plantroomID','plantroomName','chart','labels','litres','diffs'));
-    }
 
-
-
-
-    public function create($plantroomID)
-    {
-        $plantroomID = $plantroomID;
-       // $plantroomID = $poolID;
-        $plantroomName = PlantroomList::where('plantroom_id', $plantroomID)->value('plantroom_name');
-        $WaterMeterReading = WaterMeterReading::all();
-        return view('water-meter-readings.create', compact('WaterMeterReading','plantroomID', 'plantroomName'));
+        return view('water-meter.readings.index', compact('waterMeter', 'waterMeters', 'readings', 'chartData'));
     }
 
     public function store(Request $request)
     {
-        $latestreadings =0;
-        //enter 0 sum checks for new plantrooms
-        $latestreadings = WaterMeterReading::where('plantroom_id', $request->input('plantroom_id'))->orderBy('created_at', 'desc')->firstOrFail();
-        
-        $diff = $request->input('meter_reading')-$latestreadings->meter_reading;
-        WaterMeterReading::create($request->all()+ ['logged_by' => auth()->id()]+ ['difference' => $diff]);
-        return redirect()->route('water-meter-readings.index',[$request->input('plantroom_id')])->with('success', 'Reading logged successfully.');
-    }
+        $validated = $request->validate([
+            'water_meter_id' => 'required|exists:water_meters,id',
+            'reading_value' => 'required|numeric|min:0',
+            'reading_date' => 'required|date',
+            'notes' => 'nullable|string|max:1000',
+        ]);
 
-    // Add more methods like show, edit, update, destroy if needed
+        WaterMeterReading::create([
+            'water_meter_id' => $validated['water_meter_id'],
+            'reading_value' => $validated['reading_value'],
+            'reading_date' => $validated['reading_date'],
+            'notes' => $validated['notes'],
+        ]);
+
+        return redirect()->route('water-meter.readings.index', $validated['water_meter_id'])
+            ->with('success', 'Reading added successfully.');
+    }
 }
