@@ -45,8 +45,8 @@ Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function 
     Route::get('/plantroom/components/details/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'details'])->name('superadmin.plantroom.components.details');
     Route::post('/plantroom/components/store/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
 
-    Route::get('/cash-up', [CashUpController::class, 'index'])->name('cash-up.index');
-    Route::post('/cash-up', [CashUpController::class, 'submit'])->name('cash-up.submit');
+    Route::get('/cash-up', [CashUpController::class, 'index'])->name('cash_up.index');
+    Route::post('/cash-up', [CashUpController::class, 'submit'])->name('cash_up.submit');
 
     Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
     Route::post('/pool/store', [SuperAdminPoolController::class, 'store'])->name('superadmin.pool.store');
