@@ -44,7 +44,7 @@
                  
                        
                 
-            </li>
+           
             @include('partials.plantroom-menu')
             <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarWaterMEterREadings" aria-expanded="false" aria-controls="sidebarWaterMEterREadings" class="side-nav-link">
