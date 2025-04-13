@@ -8,6 +8,7 @@ use App\Models\PoolList;
 use Illuminate\Support\Facades\View;
 use App\Models\ThermalSuite;
 use App\Models\PlantroomList;
+use App\Models\WaterMeter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,8 +37,8 @@ class AppServiceProvider extends ServiceProvider
             $pools = $query->select('pool_id', 'pool_name')
                           ->orderBy('pool_name')
                           ->get();
-            
-            $view->with('pools', $pools);
+            $waterMeters = WaterMeter::select(['water_meter_id', 'location'])->get();
+            $view->with('pools', $pools)->with('waterMeters', $waterMeters);
         });
         View::composer('partials.thermal-suite-menu', function ($view) {
             $clientId = request()->query('client_id');

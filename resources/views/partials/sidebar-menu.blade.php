@@ -14,3 +14,18 @@
             <span class="menu-text">No Pools Found</span>
         </li>
     @endforelse
+    <li class="side-nav-title">Water Meters</li>
+    @forelse($waterMeters as $meter)
+        <li class="side-nav-item">
+            <a href="{{ route('water-meter.readings.index', $meter->water_meter_id) }}" class="side-nav-link">
+                <span class="menu-icon"><i class="ti ti-gauge"></i></span>
+                <span class="menu-text"> {{ $meter->location }} </span>
+            </a>
+        </li>
+    @empty
+        <li class="side-nav-item">
+            <span class="menu-icon"><i class="ti ti-gauge"></i></span>
+            <span class="menu-text">No Water Meters Found</span>
+        </li>
+    @endforelse
+</ul>
