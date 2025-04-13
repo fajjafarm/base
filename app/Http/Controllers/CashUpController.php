@@ -76,7 +76,7 @@ class CashUpController extends Controller
             ]);
         }
 
-        return redirect()->route('cash-up.index')->with('success', 'Cash-up submitted successfully.');
+        return redirect()->route('cash_up.index')->with('success', 'Cash-up submitted successfully.');
     }
 
     /**
