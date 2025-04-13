@@ -28,6 +28,7 @@ use App\Http\Controllers\SuperAdmin\SuperAdminThermalSuiteController;
 use App\Http\Controllers\SuperAdmin\SuperAdminWaterMeterController;
 use App\Http\Controllers\SuperAdmin\SuperAdminTeamMemberController;
 use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
+use App\Http\Controllers\CashUpController;
 
 //super admin access only
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
@@ -43,6 +44,9 @@ Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function 
     Route::post('/plantroom/components/count/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'storeCounts'])->name('superadmin.plantroom.components.count');
     Route::get('/plantroom/components/details/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'details'])->name('superadmin.plantroom.components.details');
     Route::post('/plantroom/components/store/{plantroom_id}', [SuperAdminPlantroomComponentController::class, 'store'])->name('superadmin.plantroom.components.store');
+
+    Route::get('/cash-up', [CashUpController::class, 'index'])->name('cash-up.index');
+    Route::post('/cash-up', [CashUpController::class, 'submit'])->name('cash-up.submit');
 
     Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
     Route::post('/pool/store', [SuperAdminPoolController::class, 'store'])->name('superadmin.pool.store');

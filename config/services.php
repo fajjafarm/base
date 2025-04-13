@@ -34,5 +34,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    
+        'trybe' => [
+            'playground_api_key' => env('TRYBE_PLAYGROUND_API_KEY'),
+            'playground_site_id' => env('TRYBE_PLAYGROUND_SITE_ID'),
+        ],
+    
 
 ];
