@@ -12,7 +12,7 @@ class WaterMeterReadingController extends Controller
     public function index(Request $request, $water_meter_id = null)
     {
         // If no water_meter_id, fetch all meters for dropdown
-        $waterMeters = WaterMeter::all(['id', 'location']);
+        $waterMeters = WaterMeter::all(['water_meter_id', 'location']);
         $waterMeter = $water_meter_id ? WaterMeter::findOrFail($water_meter_id) : null;
         $readings = $waterMeter ? $waterMeter->readings()->orderBy('reading_date', 'desc')->get() : collect();
 
