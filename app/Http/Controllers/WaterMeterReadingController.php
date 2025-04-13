@@ -11,8 +11,8 @@ class WaterMeterReadingController extends Controller
 {
     public function index(Request $request, $water_meter_id = null)
     {
-        // If no water_meter_id, fetch all meters for dropdown
-        $waterMeters = WaterMeter::all(['water_meter_id', 'location']);
+        // Fetch all meters for dropdown
+        $waterMeters = WaterMeter::select(['water_meter_id', 'location'])->get();
         $waterMeter = $water_meter_id ? WaterMeter::findOrFail($water_meter_id) : null;
         $readings = $waterMeter ? $waterMeter->readings()->orderBy('reading_date', 'desc')->get() : collect();
 
@@ -26,7 +26,6 @@ class WaterMeterReadingController extends Controller
                     $usage = $previousReading->reading_value - $reading->reading_value;
 
                     if ($usage < 0) {
-                        // Skip negative usage (possible meter reset)
                         continue;
                     }
 
@@ -38,7 +37,6 @@ class WaterMeterReadingController extends Controller
                 }
                 $previousReading = $reading;
             }
-            // Reverse for chronological order
             $chartData = array_reverse($chartData);
         }
 
@@ -48,7 +46,7 @@ class WaterMeterReadingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'water_meter_id' => 'required|exists:water_meters,id',
+            'water_meter_id' => 'required|exists:water_meters,water_meter_id',
             'reading_value' => 'required|numeric|min:0',
             'reading_date' => 'required|date',
             'notes' => 'nullable|string|max:1000',

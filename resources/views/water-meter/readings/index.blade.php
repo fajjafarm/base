@@ -33,7 +33,7 @@
                                         name="water_meter_id" id="water_meter_id" required>
                                     <option value="">Select a Water Meter</option>
                                     @foreach($waterMeters as $meter)
-                                        <option value="{{ $meter->id }}" {{ old('water_meter_id') == $meter->id ? 'selected' : '' }}>
+                                        <option value="{{ $meter->water_meter_id }}" {{ old('water_meter_id') == $meter->water_meter_id ? 'selected' : '' }}>
                                             {{ $meter->location }}
                                         </option>
                                     @endforeach
@@ -43,7 +43,7 @@
                                 @enderror
                             </div>
                         @else
-                            <input type="hidden" name="water_meter_id" value="{{ $waterMeter->id }}">
+                            <input type="hidden" name="water_meter_id" value="{{ $waterMeter->water_meter_id }}">
                         @endif
                         <div class="col-md-4">
                             <label for="reading_value" class="form-label fw-semibold">Reading Value (m³)</label>

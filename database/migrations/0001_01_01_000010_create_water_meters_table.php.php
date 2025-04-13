@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('water_meters', function (Blueprint $table) {
             $table->ulid('water_meter_id')->primary();
-            $table->ulid('plantroom_id')->nullable(); // Optional link to plantroom
-            $table->string('location'); // e.g., "Outside Plantroom A", "Basement"
-            $table->text('description')->nullable(); // Additional details
+            $table->ulid('plantroom_id')->nullable();
+            $table->string('location');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('plantroom_id')->references('plantroom_id')->on('plantroom_list')->onDelete('set null');

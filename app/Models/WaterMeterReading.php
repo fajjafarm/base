@@ -22,6 +22,6 @@ class WaterMeterReading extends Model
 
     public function waterMeter()
     {
-        return $this->belongsTo(WaterMeter::class, 'water_meter_id', 'id');
+        return $this->belongsTo(WaterMeter::class, 'water_meter_id', 'water_meter_id');
     }
 }
