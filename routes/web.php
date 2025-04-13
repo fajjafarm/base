@@ -114,7 +114,7 @@ Route::get('/clients', [ClientController::class, 'index'])->name('clients.index'
 Route::get('/clients/create/', [ClientController::class, 'create'])->name('clients.create');
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store') ;
 
-Route::get('/water-meter/{water_meter_id?}/readings', [WaterMeterReadingController::class, 'index'])->name('water-meter.readings.index');
+Route::get('/water-meter/readings/{water_meter_id?}', [WaterMeterReadingController::class, 'index'])->name('water-meter.readings.index');
 Route::post('/water-meter/readings', [WaterMeterReadingController::class, 'store'])->name('water-meter.readings.store');
 
 Route::get('water-meter-readings/view/{plantroomID}', [WaterMeterReadingController::class, 'index'])->name('water-meter-readings.index');
