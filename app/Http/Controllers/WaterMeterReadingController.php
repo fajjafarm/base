@@ -11,12 +11,10 @@ class WaterMeterReadingController extends Controller
 {
     public function index(Request $request, $water_meter_id = null)
     {
-        // Fetch all meters for dropdown
         $waterMeters = WaterMeter::select(['water_meter_id', 'location'])->get();
         $waterMeter = $water_meter_id ? WaterMeter::findOrFail($water_meter_id) : null;
         $readings = $waterMeter ? $waterMeter->readings()->orderBy('reading_date', 'desc')->get() : collect();
 
-        // Calculate daily usage for chart
         $chartData = [];
         if ($waterMeter) {
             $previousReading = null;
@@ -32,7 +30,7 @@ class WaterMeterReadingController extends Controller
                     $dailyUsage = $daysDiff > 0 ? $usage / $daysDiff : $usage;
                     $chartData[] = [
                         'date' => Carbon::parse($reading->reading_date)->format('Y-m-d'),
-                        'usage' => round($dailyUsage, 2),
+                        'usage' => round(floatval($dailyUsage), 2), // Ensure numeric
                     ];
                 }
                 $previousReading = $reading;

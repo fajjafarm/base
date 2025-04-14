@@ -23,14 +23,16 @@
             </div>
         @endif
     </li>
-
-        <li class="side-nav-item">
+    </ul>
+    <ul class="side-nav">
+    <li class="side-nav-title">Water Meters</li>
+    <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarWaterMeters" 
            aria-expanded="false" aria-controls="sidebarWaterMeters" 
            class="side-nav-link">
             <span class="menu-icon"><i class="ti ti-gauge"></i></span>
             <span class="menu-text">Water Meter Readings</span>
-            <span class="menu-arrow"></span>
+            <span class="menu-arrow"><i class="ti ti-chevron-down"></i></span>
         </a>
         @if($waterMeters->isNotEmpty())
             <div class="collapse" id="sidebarWaterMeters">
