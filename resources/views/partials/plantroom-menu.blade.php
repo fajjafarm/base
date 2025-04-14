@@ -4,10 +4,10 @@
     <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarBackwashes" 
            aria-expanded="false" aria-controls="sidebarBackwashes" 
-           class="side-nav-link">
+           class="side-nav-link collapsed">
             <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
             <span class="menu-text">Backwashing</span>
-            <span class="menu-arrow"></span>
+            <span class="menu-arrow"><i class="ti ti-chevron-down"></i></span>
         </a>
         @if($plantrooms->isNotEmpty())
             <div class="collapse" id="sidebarBackwashes">
@@ -23,13 +23,13 @@
             </div>
         @endif
     </li>
-    </ul>
-    <ul class="side-nav">
+</ul>
+<ul class="side-nav">
     <li class="side-nav-title">Water Meters</li>
     <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarWaterMeters" 
            aria-expanded="false" aria-controls="sidebarWaterMeters" 
-           class="side-nav-link">
+           class="side-nav-link collapsed">
             <span class="menu-icon"><i class="ti ti-gauge"></i></span>
             <span class="menu-text">Water Meter Readings</span>
             <span class="menu-arrow"><i class="ti ti-chevron-down"></i></span>
@@ -48,4 +48,3 @@
             </div>
         @endif
     </li>
-</ul>
