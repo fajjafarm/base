@@ -35,4 +35,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Checking collapse elements');
+            const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+            toggles.forEach(toggle => {
+                console.log('Found toggle:', toggle.getAttribute('href'));
+                toggle.addEventListener('click', () => {
+                    console.log('Toggle clicked:', toggle.getAttribute('href'));
+                });
+            });
+        });
+    </script>
+@endpush
 @stack('js')
