@@ -3,7 +3,6 @@
 
 <head>
     @include('layouts.partials.title-meta')
-
     @include('layouts.partials.head-css')
 </head>
 
@@ -36,11 +35,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             console.log('Initializing manual collapse');
             const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+            console.log('Found toggles:', toggles.length);
             toggles.forEach(toggle => {
                 const target = toggle.getAttribute('href');
+                if (!target) {
+                    console.error('Missing href attribute on toggle:', toggle.outerHTML);
+                    return;
+                }
                 const collapseElement = document.querySelector(target);
                 if (collapseElement) {
-                    // Clear existing listeners
                     const newToggle = toggle.cloneNode(true);
                     toggle.parentNode.replaceChild(newToggle, toggle);
                     newToggle.classList.add('collapsed');
@@ -55,7 +58,7 @@
                         e.preventDefault();
                     });
                 } else {
-                    console.error('Collapse target not found:', target);
+                    console.error('Collapse target not found for:', target);
                 }
             });
         });
