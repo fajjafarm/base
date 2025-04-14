@@ -30,7 +30,7 @@ class WaterMeterReadingController extends Controller
                     $dailyUsage = $daysDiff > 0 ? $usage / $daysDiff : $usage;
                     $chartData[] = [
                         'date' => Carbon::parse($reading->reading_date)->format('Y-m-d'),
-                        'usage' => round(floatval($dailyUsage), 2), // Ensure numeric
+                        'usage' => round(floatval($dailyUsage), 2),
                     ];
                 }
                 $previousReading = $reading;
