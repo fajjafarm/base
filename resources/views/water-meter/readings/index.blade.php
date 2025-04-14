@@ -150,73 +150,31 @@
     </div>
 
     @push('js')
-        @if($waterMeter)
-            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    try {
-                        console.log('Initializing Chart.js');
-                        const chartData = @json($chartData);
-                        console.log('Chart data:', chartData);
-
-                        // Initialize popovers
-                        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-                        popoverTriggerList.forEach(el => new bootstrap.Popover(el));
-
-                        // Bar chart
-                        const ctx = document.getElementById('waterUsageChart').getContext('2d');
-                        new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: chartData.map(item => item.date),
-                                datasets: [{
-                                    label: 'Daily Water Usage (m³)',
-                                    data: chartData.map(item => item.usage),
-                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                                    borderColor: 'rgba(54, 162, 235, 1)',
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        title: {
-                                            display: true,
-                                            text: 'Usage (m³)'
-                                        }
-                                    },
-                                    x: {
-                                        title: {
-                                            display: true,
-                                            text: 'Date'
-                                        }
-                                    }
-                                },
-                                plugins: {
-                                    legend: {
-                                        display: true
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Chart.js error:', error);
-                    }
-                });
-            </script>
-        @endif
+    @if($waterMeter)
+        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script> -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                console.log('Checking collapse elements');
-                const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
-                toggles.forEach(toggle => {
-                    console.log('Found toggle:', toggle.getAttribute('href'));
-                    toggle.addEventListener('click', () => {
-                        console.log('Toggle clicked:', toggle.getAttribute('href'));
-                    });
-                });
+                try {
+                    console.log('Initializing popovers');
+                    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+                    popoverTriggerList.forEach(el => new bootstrap.Popover(el));
+                } catch (error) {
+                    console.error('Popover error:', error);
+                }
             });
         </script>
-    @endpush
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Checking collapse elements');
+            const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+            toggles.forEach(toggle => {
+                console.log('Found toggle:', toggle.getAttribute('href'));
+                toggle.addEventListener('click', () => {
+                    console.log('Toggle clicked:', toggle.getAttribute('href'));
+                });
+            });
+        });
+    </script>
+@endpush
 @endsection
