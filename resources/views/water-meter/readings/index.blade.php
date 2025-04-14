@@ -154,47 +154,55 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                    // Initialize popovers
-                    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-                    popoverTriggerList.forEach(el => new bootstrap.Popover(el));
+                    try {
+                        console.log('Initializing Chart.js');
+                        const chartData = @json($chartData);
+                        console.log('Chart data:', chartData);
 
-                    // Bar chart
-                    const ctx = document.getElementById('waterUsageChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: [@json($chartData)->pluck('date')],
-                            datasets: [{
-                                label: 'Daily Water Usage (m³)',
-                                data: [@json($chartData)->pluck('usage')],
-                                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'Usage (m³)'
+                        // Initialize popovers
+                        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+                        popoverTriggerList.forEach(el => new bootstrap.Popover(el));
+
+                        // Bar chart
+                        const ctx = document.getElementById('waterUsageChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: chartData.map(item => item.date),
+                                datasets: [{
+                                    label: 'Daily Water Usage (m³)',
+                                    data: chartData.map(item => item.usage),
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Usage (m³)'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Date'
+                                        }
                                     }
                                 },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Date'
+                                plugins: {
+                                    legend: {
+                                        display: true
                                     }
                                 }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: true
-                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (error) {
+                        console.error('Chart.js error:', error);
+                    }
                 });
             </script>
         @endif
