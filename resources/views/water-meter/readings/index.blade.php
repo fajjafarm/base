@@ -206,5 +206,17 @@
                 });
             </script>
         @endif
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Checking collapse elements');
+                const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+                toggles.forEach(toggle => {
+                    console.log('Found toggle:', toggle.getAttribute('href'));
+                    toggle.addEventListener('click', () => {
+                        console.log('Toggle clicked:', toggle.getAttribute('href'));
+                    });
+                });
+            });
+        </script>
     @endpush
 @endsection
