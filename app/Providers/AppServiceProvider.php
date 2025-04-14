@@ -37,8 +37,8 @@ class AppServiceProvider extends ServiceProvider
             $pools = $query->select('pool_id', 'pool_name')
                           ->orderBy('pool_name')
                           ->get();
-            
-            $view->with('pools', $pools)
+            $waterMeters = WaterMeter::select(['water_meter_id', 'location'])->get();
+            $view->with('pools', $pools)->with('waterMeters', $waterMeters);
         });
         View::composer('partials.thermal-suite-menu', function ($view) {
             $clientId = request()->query('client_id');
@@ -53,13 +53,13 @@ class AppServiceProvider extends ServiceProvider
         });
         View::composer('partials.plantroom-menu', function ($view) {
             $clientId = request()->query('client_id');
-            $waterMeters = WaterMeter::select(['water_meter_id', 'location'])->get();
+            
             $plantrooms = PlantroomList::when($clientId, fn($query) => $query->where('client_id', $clientId))
                 ->select('plantroom_id', 'plantroom_name')
                 ->orderBy('plantroom_name')
                 ->get();
             
-            $view->with('plantrooms', $plantrooms)->with('waterMeters', $waterMeters);
+            $view->with('plantrooms', $plantrooms);
         });
     }
 }
