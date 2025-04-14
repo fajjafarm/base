@@ -149,33 +149,62 @@
         @endif
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-@stack('js')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('Initializing manual collapse');
-        const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
-        toggles.forEach(toggle => {
-            const target = toggle.getAttribute('href');
-            const collapseElement = document.querySelector(target);
-            if (collapseElement) {
-                // Clear existing listeners
-                const newToggle = toggle.cloneNode(true);
-                toggle.parentNode.replaceChild(newToggle, toggle);
-                newToggle.classList.add('collapsed');
-                newToggle.setAttribute('aria-expanded', 'false');
-                newToggle.addEventListener('click', (e) => {
-                    console.log('Toggling:', target);
-                    const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: true });
-                    newToggle.classList.toggle('collapsed');
-                    newToggle.setAttribute('aria-expanded', !newToggle.classList.contains('collapsed'));
-                    e.preventDefault();
+    @push('js')
+        @if($waterMeter)
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    try {
+                        console.log('Initializing Chart.js');
+                        const chartData = @json($chartData);
+                        console.log('Chart data:', chartData);
+
+                        // Initialize popovers
+                        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+                        popoverTriggerList.forEach(el => new bootstrap.Popover(el));
+
+                        // Bar chart
+                        const ctx = document.getElementById('waterUsageChart').getContext('2d');
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: chartData.map(item => item.date),
+                                datasets: [{
+                                    label: 'Daily Water Usage (m³)',
+                                    data: chartData.map(item => item.usage),
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Usage (m³)'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Date'
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true
+                                    }
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Chart.js error:', error);
+                    }
                 });
-            } else {
-                console.error('Collapse target not found:', target);
-            }
-        });
-    });
-</script>
-</body>
-</html>
+            </script>
+        @endif
+    @endpush
+@endsection
