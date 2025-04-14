@@ -1,6 +1,7 @@
-<!-- resources/views/partials/plantroom-menu.blade.php -->
 <ul class="side-nav">
-    <li class="side-nav-title">Plant Room</li>
+    <li class="side-nav-title">Plant Room & Water Meters</li>
+
+    <!-- Backwashing -->
     <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarBackwashes" 
            aria-expanded="false" aria-controls="sidebarBackwashes" 
@@ -23,9 +24,8 @@
             </div>
         @endif
     </li>
-</ul>
-<ul class="side-nav">
-    <li class="side-nav-title">Water Meters</li>
+
+    <!-- Water Meter Readings -->
     <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarWaterMeters" 
            aria-expanded="false" aria-controls="sidebarWaterMeters" 

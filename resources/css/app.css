@@ -1,0 +1,87 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.wrapper {
+    display: flex;
+}
+
+.page-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.side-nav {
+    list-style: none;
+    padding: 0;
+}
+
+.side-nav-title {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.side-nav-item {
+    margin-bottom: 5px;
+}
+
+.side-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #343a40;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.side-nav-link:hover {
+    background: #e9ecef;
+}
+
+.menu-icon {
+    margin-right: 10px;
+}
+
+.menu-text {
+    flex: 1;
+}
+
+.menu-arrow {
+    transition: transform 0.2s;
+}
+
+.side-nav-link.collapsed .menu-arrow i.ti-chevron-down {
+    transform: rotate(0deg);
+}
+
+.side-nav-link:not(.collapsed) .menu-arrow i.ti-chevron-down {
+    transform: rotate(180deg);
+}
+
+.side-nav-link .menu-arrow i.ti-chevron-left {
+    display: none;
+}
+
+.sub-menu {
+    padding-left: 20px;
+    list-style: none;
+}
+
+.collapse:not(.show) {
+    display: none !important;
+}
+
+.collapse.show {
+    display: block !important;
+}
+
+.collapsing {
+    transition: height 0.35s ease;
+}
