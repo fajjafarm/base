@@ -45,33 +45,7 @@
         @include('partials.plantroom-menu')
 
         
-            <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarWaterMEterREadings" aria-expanded="false" aria-controls="sidebarWaterMEterREadings" class="side-nav-link">
-                    <span class="menu-icon"><i class="ti ti ti-dashboard"></i></span>
-                    <span class="menu-text">Water Meter Readings</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarWaterMEterREadings">
-                    <ul class="sub-menu">
-                    <li class="side-nav-item">
-                            <a href="{{ route('water-meter-readings.index', '01JH15BR005DN3KR4BA71PQEK3') }}" class="side-nav-link">
-                                <span class="menu-text">Resort Plantroom</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('water-meter-readings.index', '01JK4368XNXZRBA1K1WYK4KDD1') }}" class="side-nav-link">
-                                <span class="menu-text">Hotel Plantroom</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a href="{{ route('water-meter-readings.index', '01JH0YW54XDNBSDYTZYVKWME3Z') }}" class="side-nav-link">
-                                <span class="menu-text">Hot Tub Level 3</span>
-                            </a>
-                        </li>
-                        
-                        </ul>
-                </div>
-            </li>     
+   
             <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarWaterBalanceTest" aria-expanded="false" aria-controls="sidebarWaterBalanceTest" class="side-nav-link">
                     <span class="menu-icon"><i class="ti ti-dashboard"></i></span>
