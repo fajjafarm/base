@@ -149,32 +149,33 @@
         @endif
     </div>
 
-    @push('js')
-    @if($waterMeter)
-        <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script> -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                try {
-                    console.log('Initializing popovers');
-                    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-                    popoverTriggerList.forEach(el => new bootstrap.Popover(el));
-                } catch (error) {
-                    console.error('Popover error:', error);
-                }
-            });
-        </script>
-    @endif
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('Checking collapse elements');
-            const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
-            toggles.forEach(toggle => {
-                console.log('Found toggle:', toggle.getAttribute('href'));
-                toggle.addEventListener('click', () => {
-                    console.log('Toggle clicked:', toggle.getAttribute('href'));
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@stack('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Initializing manual collapse');
+        const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
+        toggles.forEach(toggle => {
+            const target = toggle.getAttribute('href');
+            const collapseElement = document.querySelector(target);
+            if (collapseElement) {
+                // Clear existing listeners
+                const newToggle = toggle.cloneNode(true);
+                toggle.parentNode.replaceChild(newToggle, toggle);
+                newToggle.classList.add('collapsed');
+                newToggle.setAttribute('aria-expanded', 'false');
+                newToggle.addEventListener('click', (e) => {
+                    console.log('Toggling:', target);
+                    const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: true });
+                    newToggle.classList.toggle('collapsed');
+                    newToggle.setAttribute('aria-expanded', !newToggle.classList.contains('collapsed'));
+                    e.preventDefault();
                 });
-            });
+            } else {
+                console.error('Collapse target not found:', target);
+            }
         });
-    </script>
-@endpush
-@endsection
+    });
+</script>
+</body>
+</html>
