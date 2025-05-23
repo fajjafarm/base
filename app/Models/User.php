@@ -65,4 +65,13 @@ class User extends Authenticatable
         // Or: return $this->email === 'your@email.com';
         // Or add a column: $table->boolean('is_super_admin')->default(false);
     }
+     public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'task_user');
+    }
 }

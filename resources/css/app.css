@@ -1,9 +1,16 @@
+/* resources/css/app.css */
 body {
     font-family: 'Inter', sans-serif;
 }
 
 .wrapper {
     display: flex;
+}
+
+.sidenav-menu {
+    width: 250px;
+    background: #f8f9fa;
+    min-height: 100vh;
 }
 
 .page-content {

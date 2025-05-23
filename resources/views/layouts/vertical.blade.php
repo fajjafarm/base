@@ -37,9 +37,10 @@
             const toggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
             console.log('Found toggles:', toggles.length);
             toggles.forEach(toggle => {
-                const target = toggle.getAttribute('href');
+                // Support both href and data-bs-target
+                const target = toggle.getAttribute('href') || toggle.getAttribute('data-bs-target');
                 if (!target) {
-                    console.error('Missing href attribute on toggle:', toggle.outerHTML);
+                    console.error('Missing href or data-bs-target on toggle:', toggle.outerHTML);
                     return;
                 }
                 const collapseElement = document.querySelector(target);

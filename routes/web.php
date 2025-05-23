@@ -34,6 +34,7 @@ use App\Http\Controllers\CashUpController;
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
 require __DIR__ . '/auth.php';
 
+
 Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('superadmin.dashboard');
 
@@ -47,6 +48,9 @@ Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function 
 
     Route::get('/cash-up', [CashUpController::class, 'index'])->name('cash_up.cash_up');
     Route::post('/cash-up', [CashUpController::class, 'submit'])->name('cash_up.submit');
+
+    Route::get('/team-members', [TeamMemberController::class, 'index'])->name('team-members.index');
+    Route::get('/team-members/{teamMember}', [TeamMemberController::class, 'show'])->name('team-members.show');
 
     Route::get('/pool/create', [SuperAdminPoolController::class, 'create'])->name('superadmin.pool.create');
     Route::post('/pool/store', [SuperAdminPoolController::class, 'store'])->name('superadmin.pool.store');

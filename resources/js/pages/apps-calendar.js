@@ -1,210 +1,179 @@
-/**
- * Theme: Osen - Responsive Bootstrap 5 Admin Dashboard
- * Author: Coderthemes
- * Component: Full-Calendar
- */
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        droppable: true,
+        selectable: true,
+        events: '/api/events',
+        eventDrop: function (info) {
+            updateEvent(info.event);
+        },
+        eventResize: function (info) {
+            updateEvent(info.event);
+        },
+        select: function (info) {
+            openEventModal(info.startStr, info.endStr);
+        },
+        eventClick: function (info) {
+            openEventModal(info.event.startStr, info.event.endStr, info.event);
+        },
+        drop: function (info) {
+            var eventData = {
+                title: info.draggedEl.getAttribute('data-title') || 'New Event',
+                category: info.draggedEl.getAttribute('data-class'),
+                start: info.dateStr,
+                end: null
+            };
+            saveEvent(eventData);
+        }
+    });
+    calendar.render();
 
-
-import { Calendar } from '@fullcalendar/core';
-import { Draggable } from '@fullcalendar/interaction';
-import { Modal } from 'bootstrap';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-
-
-
-
-class CalendarSchedule {
-
-    constructor() {
-        this.body = document.body;
-        this.modal = new Modal(document.getElementById('event-modal'), { backdrop: 'static' });
-        this.calendar = document.getElementById('calendar');
-        this.formEvent = document.getElementById('forms-event');
-        this.btnNewEvent = document.getElementById('btn-new-event');
-        this.btnDeleteEvent = document.getElementById('btn-delete-event');
-        this.btnSaveEvent = document.getElementById('btn-save-event');
-        this.modalTitle = document.getElementById('modal-title');
-        this.calendarObj = null;
-        this.selectedEvent = null;
-        this.newEventData = null;
-    }
-
-    onEventClick(info) {
-        this.formEvent?.reset();
-        this.formEvent.classList.remove('was-validated');
-        this.newEventData = null;
-        this.btnDeleteEvent.style.display = "block";
-        this.modalTitle.text = ('Edit Event');
-        this.modal.show();
-        this.selectedEvent = info.event;
-        document.getElementById('event-title').value = this.selectedEvent.title;
-        document.getElementById('event-category').value = (this.selectedEvent.classNames[0]);
-    }
-
-    onSelect(info) {
-        this.formEvent?.reset();
-        this.formEvent?.classList.remove('was-validated');
-        this.selectedEvent = null;
-        this.newEventData = info;
-        this.btnDeleteEvent.style.display = "none";
-        this.modalTitle.text = ('Add New Event');
-        this.modal.show();
-        this.calendarObj.unselect();
-    }
-
-    init() {
-        /*  Initialize the calendar  */
-        const today = new Date();
-        const self = this;
-        const externalEventContainerEl = document.getElementById('external-events');
-
-        new Draggable(externalEventContainerEl, {
+    // External events
+    document.querySelectorAll('.external-event').forEach(function (item) {
+        new FullCalendar.Draggable(item, {
             itemSelector: '.external-event',
             eventData: function (eventEl) {
                 return {
-                    title: eventEl.innerText,
-                    classNames: eventEl.getAttribute('data-class')
+                    title: eventEl.innerText.trim(),
+                    className: eventEl.getAttribute('data-class')
                 };
             }
         });
+    });
 
-        const defaultEvents = [{
-            title: 'Interview - Backend Engineer',
-            start: today,
-            end: today,
-            className: 'bg-primary'
-        },
-        {
-            title: 'Meeting with CT Team',
-            start: new Date(Date.now() + 13000000),
-            end: today,
-            className: 'bg-warning'
-        },
-        {
-            title: 'Meeting with Mr. Admin',
-            start: new Date(Date.now() + 308000000),
-            end: new Date(Date.now() + 338000000),
-            className: 'bg-info'
-        },
-        {
-            title: 'Interview - Frontend Engineer',
-            start: new Date(Date.now() + 60570000),
-            end: new Date(Date.now() + 153000000),
-            className: 'bg-secondary'
-        },
-        {
-            title: 'Phone Screen - Frontend Engineer',
-            start: new Date(Date.now() + 168000000),
-            className: 'bg-success'
-        },
-        {
-            title: 'Buy Design Assets',
-            start: new Date(Date.now() + 330000000),
-            end: new Date(Date.now() + 330800000),
-            className: 'bg-primary',
-        },
-        {
-            title: 'Setup Github Repository',
-            start: new Date(Date.now() + 1008000000),
-            end: new Date(Date.now() + 1108000000),
-            className: 'bg-danger'
-        },
-        {
-            title: 'Meeting with Mr. Shreyu',
-            start: new Date(Date.now() + 2508000000),
-            end: new Date(Date.now() + 2508000000),
-            className: 'bg-dark'
-        }];
+    // Modal handling
+    var eventModal = new bootstrap.Modal(document.getElementById('event-modal'));
+    var eventForm = document.getElementById('forms-event');
+    var eventTitle = document.getElementById('event-title');
+    var eventCategory = document.getElementById('event-category');
+    var btnSaveEvent = document.getElementById('btn-save-event');
+    var btnDeleteEvent = document.getElementById('btn-delete-event');
+    var currentEventId = null;
 
-        // cal - init
-        self.calendarObj = new Calendar(self.calendar, {
+    function openEventModal(start, end, event = null) {
+        eventForm.reset();
+        currentEventId = event ? event.id : null;
+        eventTitle.value = event ? event.title : '';
+        eventCategory.value = event ? event.className : 'bg-primary';
+        btnDeleteEvent.style.display = event ? 'block' : 'none';
+        eventModal.show();
+    }
 
-            plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
-            slotDuration: '00:30:00', /* If we want to split day time each 15minutes */
-            slotMinTime: '07:00:00',
-            slotMaxTime: '19:00:00',
-            themeSystem: 'bootstrap',
-            bootstrapFontAwesome: false,
-            buttonText: {
-                today: 'Today',
-                month: 'Month',
-                week: 'Week',
-                day: 'Day',
-                list: 'List',
-                prev: 'Prev',
-                next: 'Next'
-            },
-            initialView: 'dayGridMonth',
-            handleWindowResize: true,
-            height: window.innerHeight - 200,
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            initialEvents: defaultEvents,
-            editable: true,
-            droppable: true, // this allows things to be dropped onto the calendar !!!
-            // dayMaxEventRows: false, // allow "more" link when too many events
-            selectable: true,
-            dateClick: function (info) {
-                self.onSelect(info);
-            },
-            eventClick: function (info) {
-                self.onEventClick(info);
+    function saveEvent(eventData) {
+        axios({
+            method: currentEventId ? 'put' : 'post',
+            url: currentEventId ? `/api/events/${currentEventId}` : '/api/events',
+            data: eventData,
+            headers: {
+                'Authorization': 'Bearer ' + document.querySelector('meta[name="api-token"]').content
             }
-        });
-
-        self.calendarObj.render();
-
-        // on new event button click
-        self.btnNewEvent.addEventListener('click', function (e) {
-            self.onSelect({
-                date: new Date(),
-                allDay: true
-            });
-        });
-
-        // save event
-        self.formEvent?.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const form = self.formEvent;
-
-            // validation
-            if (form.checkValidity()) {
-                if (self.selectedEvent) {
-                    self.selectedEvent.setProp('title', document.getElementById('event-title').value);
-                    self.selectedEvent.setProp('classNames', document.getElementById('event-category').value)
-
-                } else {
-                    const eventData = {
-                        title: document.getElementById('event-title').value,
-                        start: self.newEventData.date,
-                        allDay: self.newEventData.allDay,
-                        className: document.getElementById('event-category').value
-                    };
-                    self.calendarObj.addEvent(eventData);
-                }
-                self.modal.hide();
-            } else {
-                e.stopPropagation();
-                form.classList.add('was-validated');
-            }
-        });
-
-        // delete event
-        self.btnDeleteEvent.addEventListener('click', function (e) {
-            if (self.selectedEvent) {
-                self.selectedEvent.remove();
-                self.selectedEvent = null;
-                self.modal.hide();
-            }
+        }).then(function (response) {
+            calendar.refetchEvents();
+            eventModal.hide();
+        }).catch(function (error) {
+            console.error(error);
         });
     }
 
-}
-document.addEventListener('DOMContentLoaded', function (e) {
-    new CalendarSchedule().init();
+    function updateEvent(event) {
+        axios.put(`/api/events/${event.id}`, {
+            title: event.title,
+            category: event.className,
+            start: event.start.toISOString(),
+            end: event.end ? event.end.toISOString() : null
+        }, {
+            headers: {
+                'Authorization': 'Bearer ' + document.querySelector('meta[name="api-token"]').content
+            }
+        }).then(function () {
+            calendar.refetchEvents();
+        }).catch(function (error) {
+            console.error(error);
+        });
+    }
+
+    btnSaveEvent.addEventListener('click', function () {
+        if (eventForm.checkValidity()) {
+            var eventData = {
+                title: eventTitle.value,
+                category: eventCategory.value,
+                start: calendar.getCurrentData().dateProfile.activeRange.start,
+                end: null
+            };
+            saveEvent(eventData);
+        } else {
+            eventForm.classList.add('was-validated');
+        }
+    });
+
+    btnDeleteEvent.addEventListener('click', function () {
+        if (currentEventId) {
+            axios.delete(`/api/events/${currentEventId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + document.querySelector('meta[name="api-token"]').content
+                }
+            }).then(function () {
+                calendar.refetchEvents();
+                eventModal.hide();
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    });
+
+    // Task Modal (Add this to your Blade template)
+    var taskModal = new bootstrap.Modal(document.getElementById('task-modal')); // Add task modal HTML
+    var taskForm = document.getElementById('task-form');
+    var taskTitle = document.getElementById('task-title');
+    var taskDescription = document.getElementById('task-description');
+    var taskDueDate = document.getElementById('task-due-date');
+    var taskUsers = document.getElementById('task-users');
+    var btnSaveTask = document.getElementById('btn-save-task');
+    var currentTaskId = null;
+
+    function openTaskModal(eventId) {
+        taskForm.reset();
+        currentTaskId = null;
+        taskModal.show();
+        // Populate users dropdown (fetch via API)
+        axios.get('/api/users', {
+            headers: {
+                'Authorization': 'Bearer ' + document.querySelector('meta[name="api-token"]').content
+            }
+        }).then(function (response) {
+            taskUsers.innerHTML = response.data.map(user => `<option value="${user.id}">${user.name}</option>`).join('');
+        });
+    }
+
+    btnSaveTask.addEventListener('click', function () {
+        if (taskForm.checkValidity()) {
+            var taskData = {
+                title: taskTitle.value,
+                description: taskDescription.value,
+                due_date: taskDueDate.value,
+                user_ids: Array.from(taskUsers.selectedOptions).map(option => option.value)
+            };
+            axios({
+                method: currentTaskId ? 'put' : 'post',
+                url: currentTaskId ? `/api/tasks/${currentTaskId}` : `/api/events/${currentEventId}/tasks`,
+                data: taskData,
+                headers: {
+                    'Authorization': 'Bearer ' + document.querySelector('meta[name="api-token"]').content
+                }
+            }).then(function () {
+                taskModal.hide();
+            }).catch(function (error) {
+                console.error(error);
+            });
+        } else {
+            taskForm.classList.add('was-validated');
+        }
+    });
 });

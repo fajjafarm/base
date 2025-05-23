@@ -14,7 +14,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
+        Event::class => EventPolicy::class,
     ];
+    
 
     /**
      * Register any authentication / authorization services.
