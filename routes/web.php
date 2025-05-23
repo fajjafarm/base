@@ -35,7 +35,7 @@ use App\Http\Controllers\CashUpController;
 require __DIR__ . '/auth.php';
 
 Route::get('/calendar', function () {
-    return view('calendar');
+    return view('pages.calendar');
 })->middleware('auth');
 
 Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function () {
