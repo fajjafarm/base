@@ -34,6 +34,9 @@ use App\Http\Controllers\CashUpController;
 //Route::resource('pool-tests/{pool_id}', PoolTesttController::class)->only(['index', 'store']);
 require __DIR__ . '/auth.php';
 
+Route::get('/calendar', function () {
+    return view('calendar');
+})->middleware('auth');
 
 Route::prefix('superadmin')->middleware(['auth', 'superadmin'])->group(function () {
     Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('superadmin.dashboard');
