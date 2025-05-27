@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    use HasApiTokens; // Add this trait
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
     use Notifiable;
 
